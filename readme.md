@@ -6,3 +6,6 @@
 - git push origin 브랜치명 (파일을 해당 브랜치에 업로드)
 - git branch 브랜치명 (새롭게 브랜치를 생성)
 - git chekcout 브랜치명 (해당 브랜치로 이동)
+
+## 애로사항
+- 
