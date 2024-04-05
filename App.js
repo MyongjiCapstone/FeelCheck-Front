@@ -1,45 +1,45 @@
 import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
-export default function App() {
-  const getEmotion = async() => {
-    try {
-      const data = new FormData();
-      data.append('image', {
-        name: 'images.jpg',
-        uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdUVuCofaItV6dEUvswR327129QFC8PxAV45Ef5VuDcQ&s',
-        type: 'image/jpg'
-      });
-      axios.post("https://api-inference.huggingface.co/models/dima806/face_emotions_image_detection", data, {
-        headers: {
-          "Content-Type": 'multipart/form-data', Authorization : 'Bearer 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'
-        }
-      }).then(res => {
-        const result = res.data;
-        return result;
-      }).catch(err=>{
-        console.log(err, '여기');
-      })
-    } catch (error) {
-       console.error(error);
-    }
-  }
-  useEffect(() => {
-    getEmotion()
-      .then((response) => {
-        console.log(response);
-        // console.log(JSON.stringify(response));
-      });
-  }, [])
+import { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import Phrase from './Pages/Phrase';
 
-  return (
-    <View style={styles.container}>
-      <Image source={require('./assets/smile.jpg')}/>
-      <Text>반가워</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default function App() {
+  const [text, setText] = useState();
+  const Hello = async () => {
+    // axios.post(url, body, config)
+    console.log('hello start?');
+    axios
+      .post(
+        'http://172.20.10.3:8080/http/post',
+        {
+          //이거 object째로 body
+          id: 5,
+          username: 'jjun',
+          password: '1234',
+          email: 'jjun@gmail.com',
+        },
+        {
+          //여기부터 config
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        //성공 시
+        console.log('Success:', response.data);
+        setText(response.data);
+      })
+      .catch((error) => {
+        //실패 시
+        console.log('Error:', error);
+      });
+  };
+  useEffect(() => {
+    Hello();
+  }, []);
+  return <Phrase />;
 }
 
 const styles = StyleSheet.create({
@@ -47,6 +47,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
 });
