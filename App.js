@@ -1,13 +1,45 @@
+import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import Phrase from './Pages/Phrase';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>반가워</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  const [text, setText] = useState();
+  const Hello = async () => {
+    // axios.post(url, body, config)
+    console.log('hello start?');
+    axios
+      .post(
+        'http://172.20.10.3:8080/http/post',
+        {
+          //이거 object째로 body
+          id: 5,
+          username: 'jjun',
+          password: '1234',
+          email: 'jjun@gmail.com',
+        },
+        {
+          //여기부터 config
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((response) => {
+        //성공 시
+        console.log('Success:', response.data);
+        setText(response.data);
+      })
+      .catch((error) => {
+        //실패 시
+        console.log('Error:', error);
+      });
+  };
+  useEffect(() => {
+    Hello();
+  }, []);
+  return <Phrase />;
 }
 
 const styles = StyleSheet.create({
@@ -15,6 +47,5 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
   },
 });
