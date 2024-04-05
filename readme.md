@@ -8,6 +8,9 @@
 - git branch 브랜치명 (새롭게 브랜치를 생성)
 - git chekcout 브랜치명 (해당 브랜치로 이동)
 
+## npm
+- 라이브러리가 없다고 뜨면 npm i (npm install)을 하면 됨.
+
 ## 애로사항
 
 -
