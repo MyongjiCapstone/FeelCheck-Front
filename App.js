@@ -1,12 +1,19 @@
 import axios from 'axios';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Phrase from './pages/Phrase';
+
 import { NavigationContainer } from '@react-navigation/native';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Phrase from './pages/Phrase';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -46,13 +53,16 @@ export default function App() {
   }, []);
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home' screenOptions={{headerShown:false}}>
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Phrase" component={Phrase} />
         <Stack.Screen name="Login" component={Login} />
       </Stack.Navigator>
     </NavigationContainer>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
