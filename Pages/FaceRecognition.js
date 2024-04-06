@@ -1,9 +1,9 @@
-import { View,Text } from 'react-native'
+import { View, Text } from 'react-native';
 
-export default FaceRecognition(){
-  return(
+export default function FaceRecognition() {
+  return (
     <View>
-    <Text>안녕
-    </Text></View>
+      <Text>안녕</Text>
+    </View>
   );
 }
