@@ -6,6 +6,7 @@ import Login from '../pages/Login';
 import Music from '../pages/Music';
 import Calender from '../pages/Calender';
 import ChatRoom from '../pages/ChatRoom';
+import FaceRecognition from '../pages/FaceRecognition';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -16,6 +17,7 @@ export default function Navigation() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Phrase" component={Phrase} />
+        <Stack.Screen name="Phrase" component={FaceRecognition} />
         <Stack.Screen name="Main" component={MainTabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>
