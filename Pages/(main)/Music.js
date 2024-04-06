@@ -17,6 +17,7 @@ export default function Music() {
         if (!isConnected){
             console.log("Network Connection Failed");
         } else {
+            console.log("Network Connection Success");
             return (()=>{
                 aiMusicRecommend().then(res=>{
                     const songs = res.split('\n').map(song=>({title : song}));
