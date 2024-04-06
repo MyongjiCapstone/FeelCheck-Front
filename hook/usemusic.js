@@ -2,8 +2,20 @@ import axios from "axios";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function useMusic() {
-    const convertMusicToData = () => {
-        const result = axios.post(`${API_URL}/api/music`,{songList:"조이 - 안녕\n버스커버스커 - 막걸리나"},{headers: {'Content-Type': 'application/json'}})
+    const aiMusicRecommend = () => {
+        const result = axios.get(`${API_URL}/openapi/musicRecommend?musicGenre=행복한`)
+        .then((res) => {
+            console.log('FrontEnd : Success Recommended Music From AI');
+            return res.data.data;
+        })
+        .catch((error) => {
+            console.log('FrontEnd : Success Recommended Music From AI, Reason :', error);
+        });
+        return result;
+    }
+
+    const convertMusicToData = (songList) => {
+        const result = axios.post(`${API_URL}/api/music`,{songList:songList},{headers: {'Content-Type': 'application/json'}})
         .then((res) => {
             console.log('FrontEnd : Success convert Music to Data');
             return res.data.data;
@@ -13,5 +25,5 @@ export default function useMusic() {
         });
         return result;
     }
-    return {convertMusicToData}
+    return {aiMusicRecommend, convertMusicToData}
 }
