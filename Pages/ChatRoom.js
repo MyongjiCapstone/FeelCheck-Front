@@ -1,7 +1,5 @@
-import { View } from "react-native";
+import { View } from 'react-native';
 
-export default function ChatRoom(){
-        return (
-                <View></View>
-        )
+export default function ChatRoom() {
+  return <View></View>;
 }
