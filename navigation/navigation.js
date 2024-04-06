@@ -12,22 +12,22 @@ const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
   return (
-        <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Phrase" component={Phrase} />
-                <Stack.Screen name="Main" component={MainTabNavigator} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    )
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Phrase" component={Phrase} />
+        <Stack.Screen name="Main" component={MainTabNavigator} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
 function MainTabNavigator() {
-    return (
-        <Tab.Navigator>
-            <Tab.Screen name="Calender" component={Calender}/>
-            <Tab.Screen name="Music" component={Music}/>
-            <Tab.Screen name="ChatRoom" component={ChatRoom}/>
-        </Tab.Navigator>
-    )
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Calender" component={Calender} />
+      <Tab.Screen name="Music" component={Music} />
+      <Tab.Screen name="ChatRoom" component={ChatRoom} />
+    </Tab.Navigator>
+  );
 }

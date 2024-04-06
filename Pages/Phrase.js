@@ -1,6 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 function Phrase() {
   return (
@@ -19,39 +23,40 @@ function Phrase() {
 }
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: wp('100%'),
+    height: hp('100%'),
   },
   pg_top: {
     flexDirection: 'row',
-    flex: 5,
+    flex: hp('70%'),
     justifyContent: 'space-evenly', // 양 옆으로 정렬
-    paddingTop: 120,
-    paddingHorizontal: 30,
+    paddingTop: hp('15%'),
+    paddingHorizontal: wp('8%'),
     flexDirection: 'column',
     alignItems: 'stretch',
   },
   text: {
-    flex: 5,
+    flex: hp('80%'),
     fontSize: 50,
     fontWeight: '500',
     color: 'black',
   },
   author: {
-    flex: 1,
+    flex: hp('20%'),
     fontSize: 30,
-    marginBottom: 30,
+    marginBottom: wp('8%'),
     fontWeight: '500',
     textAlign: 'right',
   },
   pg_bottom: {
-    flex: 2,
+    flex: hp('30%'),
     alignItems: 'center',
   },
   btn: {
     fontSize: 40,
-    marginVertical: 50,
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    marginVertical: wp('5%'),
+    paddingVertical: wp('2.5%'),
+    paddingHorizontal: wp('8%'),
     borderRadius: 30,
     borderWidth: 1,
   },
