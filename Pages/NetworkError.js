@@ -14,7 +14,7 @@ export default function NetworkError({setMode}) {
     }
     return (
         <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-            <Text style={{fontSize:18, marginBottom:'5%'}}>네트워크가 연결되어 있지 않습니다.</Text>
+            <Text style={{fontSize:18, marginBottom:'5%'}}>네트워크 오류가 발생했습니다.</Text>
             <TouchableOpacity onPress={handleNetworkRetry}>
                 <Ionicons name="refresh-sharp" size={40} color="black" />
             </TouchableOpacity>

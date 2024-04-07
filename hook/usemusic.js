@@ -2,8 +2,8 @@ import axios from "axios";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function useMusic() {
-    const aiMusicRecommend = () => {
-        const result = axios.get(`${API_URL}/openapi/musicRecommend?musicGenre=행복한`)
+    const aiMusicRecommend = (musicGenre) => {
+        const result = axios.get(`${API_URL}/openapi/musicRecommend?musicGenre=${musicGenre}`)
         .then((res) => {
             console.log('FrontEnd : Success Recommended Music From AI');
             return res.data.data;
