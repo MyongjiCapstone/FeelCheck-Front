@@ -10,7 +10,7 @@ export default function Login({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
         <Text style={styles.size}>여길 누르면 로그인페이지로 이동</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('Main')}>
+      <TouchableOpacity onPress={() => navigation.navigate('MainNav')}>
         <Text style={styles.size}>여길 누르면 메인페이지로 이동</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('FaceRecognition')}>
