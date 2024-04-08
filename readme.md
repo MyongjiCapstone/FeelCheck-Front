@@ -13,3 +13,8 @@
 - 라이브러리가 없다고 뜨면 npm i (npm install)을 하면 됨.
 
 ## 애로사항
+
+### 채윤 랩실 주의사항
+- node_modules/@react-native-community/cli-server-api/build/statusPageMiddleware.js 에서 new URL(process.cwd())로 변경
+- npm cache verify
+- npm start
