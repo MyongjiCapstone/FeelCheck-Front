@@ -2,8 +2,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Text, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-export default function MusicInit({navigation}) {
-    const emotion = 'JOY';
+export default function MusicInit({navigation, route}) {
+    const emotion = 'HAPPY';
     const emotionText = {
         HAPPY : '행복한',
         JOY : '즐거운',

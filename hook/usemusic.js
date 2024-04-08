@@ -9,7 +9,7 @@ export default function useMusic() {
             return res.data.data;
         })
         .catch((error) => {
-            console.log('FrontEnd : Success Recommended Music From AI, Reason :', error);
+            console.log('FrontEnd : Failed Recommended Music From AI, Reason :', error);
         });
         return result;
     }
