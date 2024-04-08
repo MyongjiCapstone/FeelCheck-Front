@@ -60,8 +60,9 @@ function Phrase() {
         <Text style={styles.textStyle}>Show Modal</Text>
       </TouchableOpacity>
     </LinearGradient>
-    //만약 이미 기분이 등록되어있다면 확인을 눌렀을 때 모달 창 띄우기
-    // 그러니까 마지막 TouchableOpacity 부분은 나중에 없앨 것.(특히 onPress시 setModalVisible(true)부분 기억할 것.)
+    // 만약 이미 기분이 등록되어있다면 확인을 눌렀을 때 모달 창 띄우기
+    // 그러니까 마지막 TouchableOpacity 부분은 나중에 없앨 것.
+    // (특히 onPress시 setModalVisible(true)부분 기억할 것.)
   );
 }
 const styles = StyleSheet.create({
