@@ -5,7 +5,6 @@ export default function useComment() {
     const getComments = (emotion) => {
         const result = axios.get(`${API_URL}/api/comments?emotion=${emotion}`)
         .then((res)=>{
-            console.log(res.data.data);
             console.log('FrontEnd : Success Get Comments');
             return res.data.data;
         })

@@ -10,6 +10,7 @@ import Calender from '../screens/(main)/Calender';
 import ChatRoom from '../screens/(main)/ChatRoom';
 import FaceRecognition from '../screens/FaceRecognition';
 import MusicInit from '../screens/(main)/MusicInit';
+import NicknameModal from '../modal/NicknameModal';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -18,10 +19,13 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        {/* Pages */}
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Phrase" component={Phrase} />
         <Stack.Screen name="FaceRecognition" component={FaceRecognition} />
         <Stack.Screen name="MainNav" component={MainTabNavigator} />
+        {/* Modal */}
+        <Stack.Screen name="NicknameModal" component={NicknameModal} options={{presentation:"transparentModal"}}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
