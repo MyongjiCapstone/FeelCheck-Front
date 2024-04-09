@@ -74,6 +74,7 @@ function MainTabNavigator() {
         name="ChatRoom"
         component={ChatRoom}
         options={{
+          // unmountOnBlur:true,
           tabBarLabel: '채팅방',
           tabBarIcon: ({ focused }) => (
             <FontAwesome
