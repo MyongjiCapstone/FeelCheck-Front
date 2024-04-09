@@ -14,18 +14,20 @@ export default function Music({navigation, route}) {
 
     const handleConnectionChange = (state) => {
         if (state.isConnected) {
-            aiMusicRecommend(route.params.musicGenre)
-                //AI 음악 추천 성공
-                .then(res => {
-                    const songs = res.split('\n').map(song => ({ title: song }));
-                    setDataList(songs);
-                    setMode("CONNECTED");
-                    return convertMusicToData(res);
-                })
-                //Youtube 크롤링 성공
-                .then(res => {
-                    if (res) {setDataList(res)}
-                })
+            if (!dataList){
+                aiMusicRecommend(route.params.musicGenre)
+                    //AI 음악 추천 성공
+                    .then(res => {
+                        const songs = res.split('\n').map(song => ({ title: song }));
+                        setDataList(songs);
+                        setMode("CONNECTED");
+                        return convertMusicToData(res);
+                    })
+                    //Youtube 크롤링 성공
+                    .then(res => {
+                        if (res) {setDataList(res)}
+                    })
+            }
         } else {
             setMode("NETWORK_ERROR");
         }

@@ -14,7 +14,7 @@ export default function useUser(){
                 // 닉네임 등록 Modal 띄우기
                 return navigation.navigate('NicknameModal');
             } else {
-                console.log('Nickname is', res);
+                // console.log('Nickname is', res);
                 // 유저가 닉네임을 보유. 해당 닉네임 반환
                 return res;
             }
