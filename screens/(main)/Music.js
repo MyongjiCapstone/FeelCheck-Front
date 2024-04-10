@@ -1,6 +1,6 @@
 import { Image, Linking, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import useMusic from "../../hook/usemusic"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { addEventListener } from '@react-native-community/netinfo';
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { LinearGradient } from "expo-linear-gradient";
@@ -11,10 +11,11 @@ export default function Music({navigation, route}) {
     const [ mode, setMode ] = useState("LOADING"); // LOADING, CONNECTING, NETWORK_ERROR, CONNECTED
     const { aiMusicRecommend, convertMusicToData } = useMusic();
     const [dataList, setDataList] = useState();
-
+    let fetchFlag = false;
     const handleConnectionChange = (state) => {
         if (state.isConnected) {
-            if (!dataList){
+            if (!fetchFlag){
+                fetchFlag = true;
                 aiMusicRecommend(route.params.musicGenre)
                     //AI 음악 추천 성공
                     .then(res => {
@@ -35,7 +36,6 @@ export default function Music({navigation, route}) {
     const handleTouchMusic = (url) => {
         Linking.openURL(url);
     };
-
     useEffect(()=>{
         if (mode === "LOADING"){
             const unsubscribe = addEventListener(handleConnectionChange);

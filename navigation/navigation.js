@@ -12,6 +12,7 @@ import FaceRecognition from '../screens/FaceRecognition';
 import MusicInit from '../screens/(main)/MusicInit';
 import NicknameModal from '../modal/NicknameModal';
 import CommentDeleteModal from '../modal/CommentDeleteModal';
+import NicknameChangeModal from '../modal/NicknameChangeModal';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -28,6 +29,7 @@ export default function Navigation() {
         {/* Modal */}
         <Stack.Screen name="NicknameModal" component={NicknameModal} options={{presentation:"transparentModal"}}/>
         <Stack.Screen name="CommentDeleteModal" component={CommentDeleteModal} options={{presentation:"transparentModal"}} />
+        <Stack.Screen name="NicknameChangeModal" component={NicknameChangeModal} options={{presentation:"transparentModal"}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -76,7 +78,7 @@ function MainTabNavigator() {
         name="ChatRoom"
         component={ChatRoom}
         options={{
-          unmountOnBlur:true,
+          // unmountOnBlur:true,
           tabBarLabel: '채팅방',
           tabBarIcon: ({ focused }) => (
             <FontAwesome

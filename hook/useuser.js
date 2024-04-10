@@ -44,10 +44,13 @@ export default function useUser(){
         },{headers: {'Content-Type': 'application/json'}})
         .then((res) => {
             if (res.data.status === 200){
+                Alert.alert('안내', res.data.message);
                 console.log('Server : Success Nickname Updated');
                 return res.data.data;
             } else {
+                Alert.alert('안내', res.data.message);
                 console.log('Server : Failed Nickname Updated, Reason :', res.data.message);
+                return res.data.data;
             }
         });
         return result;
