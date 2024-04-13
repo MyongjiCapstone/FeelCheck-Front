@@ -15,8 +15,8 @@ function Phrase() {
         <Text style={styles.author}>- 허버드</Text>
       </View>
       <View style={styles.pg_bottom}>
-        <TouchableOpacity>
-          <Text style={styles.btn}>확인</Text>
+        <TouchableOpacity style={styles.btn}>
+          <Text style={styles.btnText}>확인</Text>
         </TouchableOpacity>
       </View>
 
@@ -97,12 +97,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btn: {
-    fontSize: 40,
     marginVertical: wp('5%'),
     paddingVertical: wp('2.5%'),
     paddingHorizontal: wp('8%'),
     borderRadius: 30,
     borderWidth: 1,
+    borderColor: 'grey',
+  },
+  btnText: {
+    fontSize: 40,
   },
   centeredView: {
     flex: hp('100%'),
