@@ -131,9 +131,10 @@ const styles = StyleSheet.create({
   },
   writeTextBtn: {
     backgroundColor: 'lightgrey',
-    marginHorizontal: wp('25.5%'),
-    paddingHorizontal: hp('2.4%'),
+    marginHorizontal: wp('24%'),
+    paddingHorizontal: hp('2%'),
     paddingVertical: hp('1.2%'),
+    alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
     marginTop: hp('4.1%'),
