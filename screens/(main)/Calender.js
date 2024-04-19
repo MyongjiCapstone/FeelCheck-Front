@@ -65,6 +65,7 @@ export default function Calender() {
                 onChangeText={onChangeText}
                 value={text}
                 placeholder="일기를 입력하세요"
+                placeholderTextColor={'grey'}
                 style={styles.input}
                 multiline
               />
@@ -106,8 +107,8 @@ const styles = StyleSheet.create({
   topCalender: {
     backgroundColor: 'white',
     height: hp('50%'),
-    marginVertical: 70,
-    marginHorizontal: 20,
+    marginVertical: hp('8.3%'),
+    marginHorizontal: wp('5%'),
     borderRadius: 10,
   },
   bottom: {
@@ -116,9 +117,8 @@ const styles = StyleSheet.create({
   },
   bottomBox: {
     height: hp('28%'),
-    // backgroundColor: 'skyblue',
-    marginHorizontal: 20,
-    marginVertical: 20,
+    marginHorizontal: wp('5%'),
+    marginVertical: hp('2.3%'),
     borderRadius: 10,
     flexDirection: 'column',
   },
@@ -127,16 +127,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     justifyContent: 'center',
-    marginTop: 60,
+    marginTop: hp('7%'),
   },
   writeTextBtn: {
     backgroundColor: 'lightgrey',
-    marginHorizontal: 100,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    marginHorizontal: wp('25.5%'),
+    paddingHorizontal: hp('2.4%'),
+    paddingVertical: hp('1.2%'),
     justifyContent: 'center',
     borderRadius: 10,
-    marginTop: 35,
+    marginTop: hp('4.1%'),
   },
   writeTextBtnText: {
     color: 'white',
@@ -145,15 +145,15 @@ const styles = StyleSheet.create({
   },
   afterBottomBox: {
     height: hp('28%'),
-    marginHorizontal: 20,
-    marginVertical: 20,
+    marginHorizontal: wp('5%'),
+    marginVertical: hp('2.3%'),
     borderRadius: 10,
     borderWidth: 1,
     borderColor: 'lightgrey',
   },
   writtenContentBox: {
-    marginVertical: 20,
-    marginHorizontal: 20,
+    marginVertical: hp('2.3%'),
+    marginHorizontal: wp('5%'),
   },
   writtenContent: {
     fontSize: 22,
@@ -184,21 +184,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   modalTextView: {
-    marginBottom: 50,
+    marginBottom: hp('6%'),
     borderWidth: 1,
   },
   input: {
     color: 'black',
-    height: 200,
-    backgroundColor: 'lightgreen',
-    marginVertical: 10,
-    marginHorizontal: 10,
+    height: hp('41.2%'),
+    width: wp('61.3%'),
+    marginVertical: hp('1.2%'),
+    marginHorizontal: wp('2.5%'),
     fontSize: 18,
   },
   modalButton: {
     borderRadius: 10,
-    padding: 12,
-    elevation: 2,
+    paddingVertical: hp('1.4%'),
+    paddingHorizontal: wp('3.1%'),
     marginHorizontal: wp('6%'),
   },
   modalButtonOpen: {
