@@ -16,6 +16,9 @@ export default function Login({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('FaceRecognition')}>
         <Text style={styles.size}>여길 누르면 얼굴인식페이지로 이동</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Logo')}>
+        <Text style={styles.size}>여길 누르면 맨처음 로딩 화면으로 이동</Text>
+      </TouchableOpacity>
     </View>
   );
 }
