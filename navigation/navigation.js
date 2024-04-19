@@ -13,6 +13,7 @@ import MusicInit from '../screens/(main)/MusicInit';
 import NicknameModal from '../modal/NicknameModal';
 import CommentDeleteModal from '../modal/CommentDeleteModal';
 import NicknameChangeModal from '../modal/NicknameChangeModal';
+import Logo from '../screens/Logo';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -25,11 +26,24 @@ export default function Navigation() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Phrase" component={Phrase} />
         <Stack.Screen name="FaceRecognition" component={FaceRecognition} />
+        <Stack.Screen name="Logo" component={Logo} />
         <Stack.Screen name="MainNav" component={MainTabNavigator} />
         {/* Modal */}
-        <Stack.Screen name="NicknameModal" component={NicknameModal} options={{presentation:"transparentModal"}}/>
-        <Stack.Screen name="CommentDeleteModal" component={CommentDeleteModal} options={{presentation:"transparentModal"}} />
-        <Stack.Screen name="NicknameChangeModal" component={NicknameChangeModal} options={{presentation:"transparentModal"}} />
+        <Stack.Screen
+          name="NicknameModal"
+          component={NicknameModal}
+          options={{ presentation: 'transparentModal' }}
+        />
+        <Stack.Screen
+          name="CommentDeleteModal"
+          component={CommentDeleteModal}
+          options={{ presentation: 'transparentModal' }}
+        />
+        <Stack.Screen
+          name="NicknameChangeModal"
+          component={NicknameChangeModal}
+          options={{ presentation: 'transparentModal' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -40,7 +54,7 @@ function MainTabNavigator() {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { height: 58, paddingTop: 5, paddingBottom: 5},
+        tabBarStyle: { height: 58, paddingTop: 5, paddingBottom: 5 },
       }}
     >
       <Tab.Screen
