@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -29,7 +30,9 @@ export default function Calender() {
       style={styles.container}
     >
       <View style={styles.top}>
-        <View style={styles.topCalender}></View>
+        <View style={styles.topCalender}>
+          <Calendar monthFormat={'yyyy년 MM월'} hideExtraDays={true} />
+        </View>
       </View>
       <View style={styles.bottom}>
         {!written ? (
