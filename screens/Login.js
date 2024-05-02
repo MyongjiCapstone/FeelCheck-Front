@@ -19,6 +19,9 @@ export default function Login({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Logo')}>
         <Text style={styles.size}>여길 누르면 맨처음 로딩 화면으로 이동</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('CameraTest')}>
+        <Text style={styles.size}>여길 누르면 카메라 테스트</Text>
+      </TouchableOpacity>
     </View>
   );
 }

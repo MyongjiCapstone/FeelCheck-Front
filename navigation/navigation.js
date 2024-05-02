@@ -14,6 +14,7 @@ import NicknameModal from '../modal/NicknameModal';
 import CommentDeleteModal from '../modal/CommentDeleteModal';
 import NicknameChangeModal from '../modal/NicknameChangeModal';
 import Logo from '../screens/Logo';
+import CameraTest from '../screens/CameraTest';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -28,6 +29,7 @@ export default function Navigation() {
         <Stack.Screen name="FaceRecognition" component={FaceRecognition} />
         <Stack.Screen name="Logo" component={Logo} />
         <Stack.Screen name="MainNav" component={MainTabNavigator} />
+        <Stack.Screen name="CameraTest" component={CameraTest} />
         {/* Modal */}
         <Stack.Screen
           name="NicknameModal"
@@ -51,59 +53,20 @@ export default function Navigation() {
 
 function MainTabNavigator() {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: { height: 58, paddingTop: 5, paddingBottom: 5 },
-      }}
-    >
-      <Tab.Screen
-        name="Calender"
-        component={Calender}
-        options={{
-          tabBarLabel: '홈',
-          tabBarIcon: ({ focused }) => (
-            <Octicons
-              name="home"
-              size={24}
-              color={focused ? '#6666FF' : 'gray'}
-            />
-          ),
-          tabBarActiveTintColor: '#6666FF',
-          tabBarInactiveTintColor: 'gray',
-        }}
-      />
-      <Tab.Screen
-        name="MusicNav"
-        component={MusicNavigator}
-        options={{
-          tabBarLabel: '음악 추천',
-          tabBarIcon: ({ focused }) => (
-            <FontAwesome
-              name="music"
-              size={24}
-              color={focused ? '#6666FF' : 'gray'}
-            />
-          ),
-          tabBarActiveTintColor: '#6666FF',
-        }}
-      />
-      <Tab.Screen
-        name="ChatRoom"
-        component={ChatRoom}
-        options={{
-          // unmountOnBlur:true,
-          tabBarLabel: '채팅방',
-          tabBarIcon: ({ focused }) => (
-            <FontAwesome
-              name="comments-o"
-              size={24}
-              color={focused ? '#6666FF' : 'gray'}
-            />
-          ),
-          tabBarActiveTintColor: '#6666FF',
-        }}
-      />
+    <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: { height: 58, paddingTop: 5, paddingBottom: 5 },}}>
+      <Tab.Screen name="Calender" component={Calender} options={{
+        tabBarLabel: '홈', tabBarIcon: ({ focused }) => (<Octicons name="home" size={24} color={focused ? '#6666FF' : 'gray'}/>),
+        tabBarActiveTintColor: '#6666FF',
+        tabBarInactiveTintColor: 'gray',}}/>
+      <Tab.Screen name="MusicNav" component={MusicNavigator} options={{
+        tabBarLabel: '음악 추천',
+        tabBarIcon: ({ focused }) => (<FontAwesome name="music" size={24} color={focused ? '#6666FF' : 'gray'}/>),
+        tabBarActiveTintColor: '#6666FF',}}/>
+      <Tab.Screen name="ChatRoom" component={ChatRoom} options={{
+        // unmountOnBlur:true,
+        tabBarLabel: '채팅방',
+        tabBarIcon: ({ focused }) => (<FontAwesome name="comments-o" size={24} color={focused ? '#6666FF' : 'gray'}/>),
+        tabBarActiveTintColor: '#6666FF',}}/>
     </Tab.Navigator>
   );
 }
