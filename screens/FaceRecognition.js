@@ -6,7 +6,7 @@ import {
 } from 'react-native-responsive-screen';
 
 export default function FaceRecognition() {
-  const [recog, setRecog] = useState(true); // 얼굴인식 전에는 false, 후에는 true
+  const [recog, setRecog] = useState(false); // 얼굴인식 전에는 false, 후에는 true
   return (
     <View style={styles.container}>
       {!recog ? (
@@ -74,8 +74,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   bottomText: {
+    fontSize: 35,
+    fontWeight: '600',
     marginTop: hp('7%'),
     marginHorizontal: wp('13%'),
+    textAlign: 'center',
   },
   afterBottomText: {
     fontSize: 30,
