@@ -1,5 +1,9 @@
 import * as React from 'react';
-import * as RN from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class RealCalendarPart extends React.Component {
   months = [
@@ -52,7 +56,7 @@ class RealCalendarPart extends React.Component {
 
     var maxDays = this.nDays[month];
     if (month == 1) {
-      // February
+      // 2월이 윤년인 경우
       if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
         maxDays += 1;
       }
@@ -84,58 +88,110 @@ class RealCalendarPart extends React.Component {
     rows = matrix.map((row, rowIndex) => {
       var rowItems = row.map((item, colIndex) => {
         return (
-          <RN.Text
+          <View
             style={{
               flex: 1,
-              height: 18,
-              textAlign: 'center',
-              // Highlight header
-              backgroundColor: rowIndex == 0 ? '#ddd' : '#fff',
-              // Highlight Sundays
-              color: colIndex == 0 ? '#a00' : '#000',
-              // Highlight current date
-              fontWeight: item == this.state.activeDate.getDate() ? 'bold' : '',
+              height: 50,
+              borderWidth: rowIndex > 5 && item == -1 ? 0 : 0.5, // 테두리
+              borderColor: '#E6E6E6', // 테두리 색상
             }}
-            onPress={() => this._onPress(item)}
           >
-            {item != -1 ? item : ''}
-          </RN.Text>
+            <Text
+              style={{
+                fontSize: 16,
+                flex: 1,
+                textAlign: 'center',
+                paddingTop: rowIndex == 0 ? 15 : 0,
+                // Highlight header
+                backgroundColor: rowIndex == 0 ? '#F4F4F4' : '#fff',
+                // 일요일은 빨간색, 토요일은 파란색으로
+                color: colIndex == 6 ? '#00a' : colIndex == 0 ? '#a00' : '#000',
+                // 선택한 날짜 볼드처리
+                fontWeight:
+                  item == this.state.activeDate.getDate() ? 'bold' : '',
+              }}
+              onPress={() => this._onPress(item)}
+            >
+              {item != -1 ? item : ''}
+            </Text>
+          </View>
         );
       });
 
       return (
-        <RN.View
+        <View
           style={{
             flex: 1,
             flexDirection: 'row',
-            padding: 15,
-            justifyContent: 'space-around',
+            padding: 25,
+            justifyContent: 'space-between',
             alignItems: 'center',
           }}
         >
           {rowItems}
-        </RN.View>
+        </View>
       );
     });
 
     return (
-      <RN.View>
-        <RN.Text
+      <View style={{ flex: 1, flexDirection: 'column' }}>
+        <View
           style={{
-            fontWeight: 'bold',
-            fontSize: 18,
-            textAlign: 'center',
+            borderRadius: 10,
+            height: hp('8%'),
+            flexDirection: 'row',
+            backgroundColor: '#E6E6E6',
           }}
         >
-          {this.months[this.state.activeDate.getMonth()]} &nbsp;
-          {this.state.activeDate.getFullYear()}
-        </RN.Text>
-        {rows}
-
-        <RN.Button title="Previous" onPress={() => this.changeMonth(-1)} />
-
-        <RN.Button title="Next" onPress={() => this.changeMonth(+1)} />
-      </RN.View>
+          <TouchableOpacity onPress={() => this.changeMonth(-1)}>
+            <Text
+              style={{
+                marginTop: hp('1.5%'),
+                fontSize: 30,
+                textAlign: 'left',
+                marginLeft: 20,
+              }}
+            >
+              {'<'}
+            </Text>
+          </TouchableOpacity>
+          <Text
+            style={{
+              marginTop: hp('1.5%'),
+              fontWeight: '600',
+              fontSize: 30,
+              textAlign: 'center',
+              marginLeft: 10,
+            }}
+          >
+            {this.months[this.state.activeDate.getMonth()]} &nbsp;
+          </Text>
+          <TouchableOpacity onPress={() => this.changeMonth(+1)}>
+            <Text
+              style={{
+                marginTop: hp('1.5%'),
+                fontSize: 30,
+                textAlign: 'left',
+              }}
+            >
+              {'>'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            backgroundColor: 'white',
+            flex: 1,
+            flexDirection: 'row',
+            // marginHorizontal: wp('-14.5%'), // 최후의 수단;;
+            borderRadius: 10,
+          }}
+        >
+          <View style={{ flex: 1 }} />
+          <View style={{ flex: 10 }}>{rows}</View>
+          <View style={{ flex: 1 }} />
+        </View>
+      </View>
     );
   }
 }
