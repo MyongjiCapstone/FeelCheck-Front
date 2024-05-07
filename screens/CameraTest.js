@@ -11,7 +11,8 @@ export default function CameraTest({navigation}){
     const handleFaceDetected = ({faces}) => {
         if (faces.length !== 0 && !isCaptured //얼굴이 화면에 감지
             && faces[0].bounds.size.height > 200 && faces[0].bounds.size.height<280 //얼굴 높이가 200~280 사이
-            && faces[0].NOSE_BASE.x>140 && faces[0].NOSE_BASE.x<230) { //코 위치가 140~230 사이
+            && faces[0].NOSE_BASE.x>140 && faces[0].NOSE_BASE.x<230 //코 x위치가 140~230 사이
+            && faces[0].NOSE_BASE.y>180 && faces[0].NOSE_BASE.y<310) { //코 y위치가 180~310 사이
             setCountEnable(true);
             setCaptureCount(prev=>{
                 const newCount = prev+1;
