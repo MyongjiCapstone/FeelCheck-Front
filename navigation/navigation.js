@@ -15,6 +15,7 @@ import CommentDeleteModal from '../modal/CommentDeleteModal';
 import NicknameChangeModal from '../modal/NicknameChangeModal';
 import Logo from '../screens/Logo';
 import CameraTest from '../screens/CameraTest';
+import CameraNext from '../screens/CameraNext';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,7 +30,8 @@ export default function Navigation() {
         <Stack.Screen name="FaceRecognition" component={FaceRecognition} />
         <Stack.Screen name="Logo" component={Logo} />
         <Stack.Screen name="MainNav" component={MainTabNavigator} />
-        <Stack.Screen name="CameraTest" component={CameraTest} />
+        <Stack.Screen name="CameraTest" component={CameraTest}/>
+        <Stack.Screen name='CameraNext' component={CameraNext} />
         {/* Modal */}
         <Stack.Screen
           name="NicknameModal"

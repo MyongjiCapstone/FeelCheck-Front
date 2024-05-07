@@ -1,8 +1,48 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Camera, CameraType } from "expo-camera"
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import * as FaceDetector from 'expo-face-detector';
+import { useEffect, useRef, useState } from "react";
 
-export default function CameraTest(){
+export default function CameraTest({navigation}){
+    const [captureCount, setCaptureCount] = useState(0);
+    const [countEnable, setCountEnable] = useState(false);
+    const [isCaptured, setIsCaptured] = useState(false);
+    const handleFaceDetected = ({faces}) => {
+        if (faces.length !== 0 && !isCaptured //얼굴이 화면에 감지
+            && faces[0].bounds.size.height > 200 && faces[0].bounds.size.height<280 //얼굴 높이가 200~280 사이
+            && faces[0].NOSE_BASE.x>140 && faces[0].NOSE_BASE.x<230) { //코 위치가 140~230 사이
+            setCountEnable(true);
+            setCaptureCount(prev=>{
+                const newCount = prev+1;
+                if (newCount === 4){
+                    setIsCaptured(true);
+                    takePhoto();
+                    return 0;
+                }
+                return newCount;
+            }); 
+        } else {
+            setCaptureCount(0);
+            setCountEnable(false);
+        }
+    }
+    const takePhoto = async() => {
+        let {uri} = await cameraRef.current.takePictureAsync({
+            quality: 1,
+        })
+        navigation.replace('CameraNext', {capturedImage:uri});
+    }
+    const [numOpacity, setNumOpacity] = useState(1);
+    const intervalRef = useRef();
+    useEffect(()=>{
+        setNumOpacity(1);
+        intervalRef.current = setInterval(()=>{
+            setNumOpacity(prev=>prev-0.05);
+        },50)
+        return () => clearInterval(intervalRef.current);
+    },[captureCount])
+    const cameraRef = useRef();
     const [permission, requestPermission] = Camera.useCameraPermissions();
     if (!permission){
         return <View/>
@@ -19,7 +59,17 @@ export default function CameraTest(){
     }
     return(
         <View style={{flex:1, justifyContent:'center', backgroundColor:'gray'}}>
-            <Camera style={{height:hp('63%'), justifyContent:'center', alignItems:'center'}} type={CameraType.front}>
+            <Camera style={{height:hp('63%'), justifyContent:'center', alignItems:'center'}} type={CameraType.front}
+            onFacesDetected={handleFaceDetected}
+            faceDetectorSettings={{
+                mode: FaceDetector.FaceDetectorMode.accurate,
+                detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
+                runClassifications: FaceDetector.FaceDetectorClassifications.none,
+                minDetectionInterval: 1000,
+            }}
+            ref={cameraRef}
+            >
+                {countEnable && captureCount>0 ? <Text style={{position:'absolute', fontSize:60, opacity:numOpacity}}>{4-captureCount}</Text> : <Text style={{position:'absolute', fontSize:60}}></Text>}
                 <Image source={require('../assets/face-guideline.png')} resizeMode="cover" style={{tintColor:'white'}}/>
             </Camera>
             <View style={{height:hp('28%'), backgroundColor:'lightgray', position:'absolute', top:0, left:0, right:0,
