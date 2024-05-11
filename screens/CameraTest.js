@@ -1,5 +1,5 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { Camera, CameraType } from "expo-camera"
+import { Camera, CameraType } from "expo-camera/legacy"
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import * as FaceDetector from 'expo-face-detector';
 import { useEffect, useRef, useState } from "react";
