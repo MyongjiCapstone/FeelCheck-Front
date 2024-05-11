@@ -4,7 +4,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import * as FaceDetector from 'expo-face-detector';
 import { useEffect, useRef, useState } from "react";
 
-export default function CameraTest({navigation}){
+export default function EmotionCamera({navigation}){
     const [captureCount, setCaptureCount] = useState(0);
     const [countEnable, setCountEnable] = useState(false);
     const [isCaptured, setIsCaptured] = useState(false);
@@ -32,7 +32,7 @@ export default function CameraTest({navigation}){
         let {uri} = await cameraRef.current.takePictureAsync({
             quality: 1,
         })
-        navigation.replace('CameraNext', {capturedImage:uri});
+        navigation.replace('EmotionResult', {capturedImage:uri});
     }
     const [numOpacity, setNumOpacity] = useState(1);
     const intervalRef = useRef();
