@@ -4,7 +4,7 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function useComment() {
     const getComments = (emotion, page) => {
-        const result = axios.get(`${API_URL}/api/comments?emotion=${emotion}&page=${page}`)
+        const result = axios.get(`${API_URL}/api/comments?emotion=${emotion}&page=${page}`, {timeout:5000})
         .then((res)=>{
             if (res.data.status === 200){
                 // console.log('FrontEnd : Success Get Comments');
@@ -22,7 +22,7 @@ export default function useComment() {
             emotion: commentPostData.emotion,
             nickname: commentPostData.nickname,
             comment: commentPostData.comment
-        },{headers: {'Content-Type': 'application/json'}})
+        },{headers: {'Content-Type': 'application/json'}, timeout:5000})
         .then((res) => {
             if (res.data.status === 200){
                 // console.log('FrontEnd : Success Post Comment');
@@ -36,7 +36,7 @@ export default function useComment() {
         return result;
     }
     const deleteComment = (commentDeleteData) => {
-        const result = axios.delete(`${API_URL}/api/comments?nickname=${commentDeleteData.nickname}&commentId=${commentDeleteData.commentId}`)
+        const result = axios.delete(`${API_URL}/api/comments?nickname=${commentDeleteData.nickname}&commentId=${commentDeleteData.commentId}`, {timeout:5000})
         .then((res) => {
             if (res.data.status === 200){
                 Alert.alert('안내', res.data.message);

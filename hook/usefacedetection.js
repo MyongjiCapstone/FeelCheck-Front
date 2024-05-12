@@ -13,7 +13,8 @@ export default function useFaceDetection(){
                 uri: faceImage
             });
             let response = await axios.post(`${API_URL_AI}/classify`, formData, {
-                headers:{"Content-Type":"multipart/form-data"}
+                headers:{"Content-Type":"multipart/form-data"},
+                timeout: 5000
             });
             return response.data;
         }catch(error){

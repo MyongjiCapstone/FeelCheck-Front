@@ -14,7 +14,10 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-export default function Calender() {
+export default function Calender({route}) {
+  // Emotion has Successful Recognized
+  const emotion = route.params.emotion;
+
   const [written, setWritten] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [text, setText] = useState('');
