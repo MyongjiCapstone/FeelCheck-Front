@@ -3,7 +3,7 @@ const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function useMusic() {
     const aiMusicRecommend = (musicGenre) => {
-        const result = axios.get(`${API_URL}/openapi/musicRecommend?musicGenre=${musicGenre}`)
+        const result = axios.get(`${API_URL}/openapi/musicRecommend?musicGenre=${musicGenre}`, {timeout:10000})
         .then((res) => {
             console.log('FrontEnd : Success Recommended Music From AI');
             return res.data.data;
@@ -15,7 +15,7 @@ export default function useMusic() {
     }
 
     const convertMusicToData = (songList) => {
-        const result = axios.post(`${API_URL}/api/music`,{songList:songList},{headers: {'Content-Type': 'application/json'}})
+        const result = axios.post(`${API_URL}/api/music`,{songList:songList},{headers: {'Content-Type': 'application/json'}, timeout:10000})
         .then((res) => {
             console.log('FrontEnd : Success convert Music to Data');
             return res.data.data;

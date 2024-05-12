@@ -24,7 +24,7 @@ export default function useUser(){
     const createNickname = (nickname) => {
         const result = axios.post(`${API_URL}/api/users`,{
             nickname: nickname
-        },{headers: {'Content-Type': 'application/json'}})
+        },{headers: {'Content-Type': 'application/json'}, timeout:5000})
         .then((res) => {
             if (res.data.status === 200){
                 console.log('Server : Success User Created');
@@ -41,7 +41,7 @@ export default function useUser(){
         const result = axios.put(`${API_URL}/api/users`,{
             nickname: nickname,
             newNickname: newNickname
-        },{headers: {'Content-Type': 'application/json'}})
+        },{headers: {'Content-Type': 'application/json'}, timeout:5000})
         .then((res) => {
             if (res.data.status === 200){
                 Alert.alert('안내', res.data.message);

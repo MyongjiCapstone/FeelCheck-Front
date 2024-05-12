@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import {
@@ -6,7 +6,12 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-function Phrase() {
+function Phrase({navigation, route}) {
+  const emotion = route.params.emotion;
+  useEffect(()=>{
+    console.log(emotion, "Phrase is Printing");
+  },[])
+
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <LinearGradient colors={['skyblue', 'white']} style={styles.container}>
@@ -15,7 +20,9 @@ function Phrase() {
         <Text style={styles.author}>- 허버드</Text>
       </View>
       <View style={styles.pg_bottom}>
-        <TouchableOpacity style={styles.btn}>
+        {/* 채윤 여기에 navigation 설치하고 감 */}
+        <TouchableOpacity onPress={()=>setModalVisible(true)}
+        style={styles.btn}>
           <Text style={styles.btnText}>확인</Text>
         </TouchableOpacity>
       </View>
@@ -41,9 +48,10 @@ function Phrase() {
               >
                 <Text style={styles.textStyle}>취소</Text>
               </TouchableOpacity>
+              {/* 채윤 여기에 navigation 설치하고 감 */}
               <TouchableOpacity
                 style={[styles.modalButton, styles.modalButtonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => navigation.replace("MainNav", {emotion:emotion})}
               >
                 <Text style={{ ...styles.textStyle, color: 'white' }}>
                   업데이트
