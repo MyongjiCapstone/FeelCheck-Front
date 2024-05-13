@@ -16,7 +16,7 @@ import {
 
 export default function Calender({route}) {
   // Emotion has Successful Recognized
-  const emotion = route.params.emotion;
+  // const emotion = route.params.emotion;
 
   const [written, setWritten] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
