@@ -7,7 +7,7 @@ export default function Temp({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('Phrase')}>
         <Text style={styles.size}>여길 누르면 Phrase로 이동</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('MainNav')}>
+      <TouchableOpacity onPress={() => navigation.navigate('MainNav', {emotion:'Happy'})}>
         <Text style={styles.size}>여길 누르면 메인페이지로 이동</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Logo')}>
