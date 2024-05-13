@@ -3,6 +3,7 @@ import { Camera, CameraType } from "expo-camera/legacy"
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import * as FaceDetector from 'expo-face-detector';
 import { useEffect, useRef, useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function EmotionCamera({navigation}){
     const [captureCount, setCaptureCount] = useState(0);
@@ -59,7 +60,8 @@ export default function EmotionCamera({navigation}){
         )
     }
     return(
-        <View style={{flex:1, justifyContent:'center', backgroundColor:'gray'}}>
+        // LinearGradient colors={['#9CB7FF', '#DAD1FF']} end={{ x: 0.5, y: 0.6 }} style={{ height: '100%' }}
+        <View style={{flex:1, justifyContent:'center'}}>
             <Camera style={{height:hp('63%'), justifyContent:'center', alignItems:'center'}} type={CameraType.front}
             onFacesDetected={handleFaceDetected}
             faceDetectorSettings={{
@@ -73,14 +75,14 @@ export default function EmotionCamera({navigation}){
                 {countEnable && captureCount>0 ? <Text style={{position:'absolute', fontSize:60, opacity:numOpacity}}>{4-captureCount}</Text> : <Text style={{position:'absolute', fontSize:60}}></Text>}
                 <Image source={require('../assets/face-guideline.png')} resizeMode="cover" style={{tintColor:'white'}}/>
             </Camera>
-            <View style={{height:hp('28%'), backgroundColor:'lightgray', position:'absolute', top:0, left:0, right:0,
+            <LinearGradient colors={['#9CB7FF', '#EBE2FF']} end={{ x: 0.5, y: 0.7 }} style={{height:hp('28%'), position:'absolute', top:0, left:0, right:0,
             justifyContent:'center', alignItems:'center'}}>
                 <Text style={{fontSize:29, textAlign:'center', paddingHorizontal:'15%'}}>오늘 하루의 기분을 표정으로 말해주세요!</Text>
-            </View>
-            <View style={{height:hp('28%'), backgroundColor:'lightgray', position:'absolute', bottom:0, left:0, right:0,
+            </LinearGradient>
+            <LinearGradient colors={['#DAD1FF','#9CB7FF']} end={{ x: 0.5, y: 0.8 }} style={{height:hp('28%'), position:'absolute', bottom:0, left:0, right:0,
             justifyContent:'center', alignItems:'center'}}>
                 <Text style={{fontSize:27, textAlign:'center', paddingHorizontal:'20%'}}>AI가 분석한 당신의 기분은 무엇일까요?</Text>
-            </View>
+            </LinearGradient>
         </View>
     )
 } 
