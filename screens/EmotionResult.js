@@ -14,8 +14,8 @@ export default function EmotionResult({navigation, route}){
         if(mode === "LOADING"){
             classifyFace(capturedImage)
             .then(res=>{
-                console.log("성공",res);
-                setEmotion(res.emotion);
+                console.log("성공",res[0]);
+                setEmotion(res[0].emotion);
             })
             .catch(err=>{
                 console.log("실패",err.response);

@@ -16,6 +16,9 @@ export default function Temp({ navigation }) {
       <TouchableOpacity onPress={() => navigation.navigate('EmotionCamera')}>
         <Text style={styles.size}>여길 누르면 카메라 테스트</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('AISummaryBtn')}>
+        <Text style={styles.size}>AI 요약 버튼 눌렀을 때는?</Text>
+      </TouchableOpacity>
     </View>
   );
 }

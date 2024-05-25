@@ -15,6 +15,8 @@ import Logo from '../screens/Logo';
 import Temp from '../screens/Temp';
 import EmotionCamera from '../screens/EmotionCamera';
 import EmotionResult from '../screens/EmotionResult';
+import TestCalender from '../screens/(main)/TestCalender';
+import AISummaryBtn from '../screens/AISummaryBtn';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -31,22 +33,11 @@ export default function Navigation() {
         <Stack.Screen name="MainNav" component={MainTabNavigator} />
         <Stack.Screen name="EmotionCamera" component={EmotionCamera}/>
         <Stack.Screen name='EmotionResult' component={EmotionResult} />
+        <Stack.Screen name='AISummaryBtn' component={AISummaryBtn}/>
         {/* Modal */}
-        <Stack.Screen
-          name="NicknameModal"
-          component={NicknameModal}
-          options={{ presentation: 'transparentModal' }}
-        />
-        <Stack.Screen
-          name="CommentDeleteModal"
-          component={CommentDeleteModal}
-          options={{ presentation: 'transparentModal' }}
-        />
-        <Stack.Screen
-          name="NicknameChangeModal"
-          component={NicknameChangeModal}
-          options={{ presentation: 'transparentModal' }}
-        />
+        <Stack.Screen name="NicknameModal" component={NicknameModal} options={{ presentation: 'transparentModal' }}/>
+        <Stack.Screen name="CommentDeleteModal" component={CommentDeleteModal} options={{ presentation: 'transparentModal' }}/>
+        <Stack.Screen name="NicknameChangeModal" component={NicknameChangeModal} options={{ presentation: 'transparentModal' }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -56,7 +47,7 @@ function MainTabNavigator({route}) {
   const emotion = route.params.emotion;
   return (
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: { height: 58, paddingTop: 5, paddingBottom: 5 },}}>
-      <Tab.Screen name="Calender" component={Calender} initialParams={{emotion:emotion}} options={{ 
+      <Tab.Screen name="Calender" component={TestCalender} initialParams={{emotion:emotion}} options={{ 
         tabBarLabel: '홈', tabBarIcon: ({ focused }) => (<Octicons name="home" size={24} color={focused ? '#6666FF' : 'gray'}/>),
         tabBarActiveTintColor: '#6666FF',
         tabBarInactiveTintColor: 'gray',}}/>
