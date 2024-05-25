@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Touchable } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import useDiary from '../../hook/usediary';
 
-export default function TestCalenderComponent() {
+export default function TestCalenderComponent({selectedDate, setSelectedDate,setDiaryData,setSelectedWeek,diaryData}) {
     LocaleConfig.locales['kr'] = {
         monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
         monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -17,13 +18,62 @@ export default function TestCalenderComponent() {
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
     const day = date.getDate().toString().padStart(2, '0');
     const dateString = `${year}-${month}-${day}`
-
-    const [selectedDate, setSelectedDate] = useState(dateString);
-    
-    const handleDayPress = (day) => {
-        console.log(day);
-        setSelectedDate(day.dateString);
+    const [dateYearMonth, setDateYearMonth] = useState(`${year}-${month}`)
+    const {getMonthDiary} = useDiary();
+    const getWeek = (date) => {
+        const tmpDate = new Date(date);
+        const firstDayOfMonth = new Date(tmpDate.getFullYear(), tmpDate.getMonth(), 1)
+        const firstSunday = new Date(firstDayOfMonth);
+        firstSunday.setDate(firstDayOfMonth.getDate() + (7 - firstDayOfMonth.getDay()));
+        const weekNumber = Math.floor((tmpDate.getDate() - firstSunday.getDate())/7) + 2; // 주차 계산 로직
+        return weekNumber;
     }
+    useEffect(()=>{
+        getMonthDiary(dateYearMonth).then(res=>{
+            return setDiaryData(res);
+        });
+    },[dateYearMonth])
+    useEffect(()=>{
+        setSelectedWeek(getWeek(dateString));
+    },[])
+    const [dotList, setDotList] = useState([]);
+    useEffect(()=>{
+        let newDotList = []
+        Object.keys(diaryData)?.forEach(week => {
+            Object.keys(diaryData[week]).forEach(date => {
+                newDotList.push(date);
+            });
+        });
+        setDotList(newDotList); // 여기서 setDotList를 한 번만 호출하여 성능을 향상시킴
+    },[diaryData])
+    const handleMonthChange = (date) => {
+        const newMonth = date.dateString.slice(0,-3);
+        setDateYearMonth(newMonth);
+    }
+    // const [selectedDate, setSelectedDate] = useState(dateString);
+    const handleDayPress = (day) => {
+        const weekNumber = getWeek(day.dateString);
+        setSelectedDate(day.dateString);
+        setSelectedWeek(weekNumber);
+    }
+    const makeMarkedDates = () => {
+        const markedDates = {
+            [dateString]:{todayStyle:{backgroundColor:'#FFB3B3', borderRadius:50}},
+            [selectedDate]:dateString===selectedDate?{selectedStyle:{borderWidth:1, borderRadius:4,borderColor:'#AAAAAA'},todayStyle:{backgroundColor:'#FFB3B3', borderRadius:50}}
+            :{selectedStyle:{borderWidth:1, borderRadius:4,borderColor:'#AAAAAA'}},
+        };
+        dotList.forEach(date=>{
+            if (date === selectedDate){
+                markedDates[selectedDate] = {...markedDates[selectedDate], isWrite:true}
+            } else if (date === dateString) {
+                markedDates[dateString] = {...markedDates[dateString], isWrite:true}
+            } else {
+                markedDates[date] = {isWrite:true}
+            }
+        })
+        return markedDates;
+    }
+    const markedDates = makeMarkedDates();
     return (
         <>
             <Calendar style={{borderRadius: 4, backgroundColor:'transparent', margin:1}}
@@ -35,12 +85,9 @@ export default function TestCalenderComponent() {
                     }
                 },
             }}
+            onMonthChange={handleMonthChange}
             monthFormat='M월'
-            markedDates={{
-                [dateString]:{todayStyle:{backgroundColor:'#FFB3B3', borderRadius:50}},
-                [selectedDate]:dateString===selectedDate?{selectedStyle:{borderWidth:1, borderRadius:4,borderColor:'#AAAAAA'},todayStyle:{backgroundColor:'#FFB3B3', borderRadius:50}}
-                :{selectedStyle:{borderWidth:1, borderRadius:4,borderColor:'#AAAAAA'}}
-            }}
+            markedDates={markedDates}
             arrowsHitSlop={0}
             renderArrow={(direction)=>{
                 if (direction==='right'){
@@ -67,7 +114,8 @@ export default function TestCalenderComponent() {
                         <View style={[marking?.todayStyle, {width:20, height:14, alignItems:'center', justifyContent:'center'}]}>
                             <Text style={{fontSize:10}}>{date.day}</Text>
                         </View>
-                        <Text>{'😊'}</Text>
+                        <Text style={{marginVertical:3}}>{'😊'}</Text>
+                        <View style={marking?.isWrite?{backgroundColor:'#486ED1', width:3, height:3, borderRadius:50}:undefined}></View>
                     </TouchableOpacity>
                     </View>
                 )
