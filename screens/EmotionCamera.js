@@ -62,7 +62,7 @@ export default function EmotionCamera({navigation}){
     return(
         // LinearGradient colors={['#9CB7FF', '#DAD1FF']} end={{ x: 0.5, y: 0.6 }} style={{ height: '100%' }}
         <View style={{flex:1, justifyContent:'center'}}>
-            <Camera style={{height:hp('63%'), justifyContent:'center', alignItems:'center'}} type={CameraType.front}
+            <Camera style={{height:hp('68%'), justifyContent:'center', alignItems:'center'}} type={CameraType.front}
             onFacesDetected={handleFaceDetected}
             faceDetectorSettings={{
                 mode: FaceDetector.FaceDetectorMode.accurate,
