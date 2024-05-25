@@ -33,7 +33,8 @@ export default function AISummaryBtn(){
     </LinearGradient>
   )
 } 
-
+const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
+  const nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 const CalenderButtonsPart = () => {
   const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
   const changeMonth = (n) => {
@@ -45,7 +46,53 @@ const CalenderButtonsPart = () => {
   };
   const [activeDate, setActiveDate] = useState(new Date());
 
+  const generateMatrix = () => {
+    var matrix = [];
+    // Create header
+    matrix[0] = weekDays;
+
+    // console.log(weekDays);
+
+    var year = activeDate.getFullYear();
+    var month = activeDate.getMonth();
+    var firstDay = new Date(year, month, 1).getDay();
+
+    var maxDays = nDays[month];
+    if (month === 1) {
+      // 2월이 윤년인 경우
+      if ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) {
+        maxDays += 1;
+      }
+    }
+
+    var counter = 1;
+    for (var row = 1; row < 7; row++) {
+      matrix[row] = [];
+      for (var col = 0; col < 7; col++) {
+        matrix[row][col] = -1;
+        if (row === 1 && col >= firstDay) {
+          // Fill in rows only after the first day of the month
+          matrix[row][col] = counter++;
+        } else if (row > 1 && counter <= maxDays) {
+          // Fill in rows only if the counter's not greater than
+          // the number of days in the month
+          matrix[row][col] = counter++;
+        }
+      }
+    }
+    let weeks = 0;
+    for (let rowIndex = 1; rowIndex < matrix.length; rowIndex++) {
+      if (matrix[rowIndex].some(day => day !== -1)) {
+        weeks++;
+      }
+    }
+    console.log('weeks: ', weeks)
+
+    return weeks;
+
+  };
   return (
+    
     <View style={{ borderRadius: 10, height: hp('8%'), flexDirection: 'row', backgroundColor: '#E6E6E6'}}>
         <TouchableOpacity onPress={() => changeMonth(-1)}>
           <Text style={{ marginTop: hp('1.5%'), fontSize: 30, textAlign: 'left', marginLeft: 20 }}>{'<'}</Text>
@@ -106,6 +153,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '400',
     textAlign: 'center',
+    
   },
   topPartButtonsContainer: {
     flexDirection: 'row',
