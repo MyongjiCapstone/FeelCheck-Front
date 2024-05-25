@@ -14,12 +14,12 @@ import {
 } from 'react-native-responsive-screen';
 import TestCalenderComponent from './TestCalenderComponent';
 import useDiary from '../../hook/usediary';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Calender({route}) {
+export default function Calender() {
   // Emotion has Successful Recognized
-  // const emotion = route.params.emotion;
+  const navigation = useNavigation();
   const {writeDiary} = useDiary();
-  const [written, setWritten] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [text, setText] = useState('');
 
@@ -28,7 +28,6 @@ export default function Calender({route}) {
   const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
   const day = date.getDate().toString().padStart(2, '0');
   const dateString = `${year}-${month}-${day}`
-  const dateYearMonth = `${year}-${month}`
   const [selectedDate, setSelectedDate] = useState(dateString);
   const [selectedWeek, setSelectedWeek] = useState();
   const [diaryData, setDiaryData] = useState({1:{}, 2:{}, 3:{}, 4:{}});
@@ -52,12 +51,11 @@ export default function Calender({route}) {
         </View>
       </View>
       <View style={styles.bottom}>
-        {diaryData[selectedWeek]?.[selectedDate] ? (
-          <TouchableOpacity style={styles.afterBottomBox}>
-            {/* 이게 클릭되면 언제 작성됐는지에 대한 정보와 수정 및 삭제할 수 있는 버튼 띄우기 */}
+        {diaryData[selectedWeek]?.[selectedDate]?.['text'] ? (
+          <TouchableOpacity style={styles.afterBottomBox} onPress={() => setModalVisible(true)} onLongPress={()=>navigation.navigate('DiaryDeleteModal', {data : selectedDate, func: setDiaryData})}>
             <View style={styles.writtenContentBox}>
               <Text style={styles.writtenContent}>
-                {diaryData[selectedWeek][selectedDate]}
+                {diaryData[selectedWeek][selectedDate]['text']}
               </Text>
             </View>
           </TouchableOpacity>

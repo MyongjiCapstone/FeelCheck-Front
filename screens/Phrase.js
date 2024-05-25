@@ -5,12 +5,18 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import useEmotion from '../hook/useemotion';
 
 function Phrase({navigation, route}) {
   const emotion = route.params.emotion;
+  const {todayEmotion} = useEmotion();
   useEffect(()=>{
     console.log(emotion, "Phrase is Printing");
   },[])
+  const handleUpdateEmotion = () => {
+    todayEmotion(emotion);
+    navigation.replace("MainNav")
+  }
 
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -51,7 +57,7 @@ function Phrase({navigation, route}) {
               {/* 채윤 여기에 navigation 설치하고 감 */}
               <TouchableOpacity
                 style={[styles.modalButton, styles.modalButtonClose]}
-                onPress={() => navigation.replace("MainNav", {emotion:emotion})}
+                onPress={handleUpdateEmotion}
               >
                 <Text style={{ ...styles.textStyle, color: 'white' }}>
                   업데이트

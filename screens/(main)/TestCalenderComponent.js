@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Touchable } from 'react-nativ
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import useDiary from '../../hook/usediary';
+import useEmotion from '../../hook/useemotion';
 
 export default function TestCalenderComponent({selectedDate, setSelectedDate,setDiaryData,setSelectedWeek,diaryData}) {
     LocaleConfig.locales['kr'] = {
@@ -28,22 +29,26 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
         const weekNumber = Math.floor((tmpDate.getDate() - firstSunday.getDate())/7) + 2; // 주차 계산 로직
         return weekNumber;
     }
+    // setSelectedWeek(getWeek(dateString));
     useEffect(()=>{
         getMonthDiary(dateYearMonth).then(res=>{
             return setDiaryData(res);
         });
     },[dateYearMonth])
-    useEffect(()=>{
-        setSelectedWeek(getWeek(dateString));
-    },[])
     const [dotList, setDotList] = useState([]);
+    const [emojiList, setEmojiList] = useState([]);
     useEffect(()=>{
         let newDotList = []
+        let newEmojiList = []
         Object.keys(diaryData)?.forEach(week => {
             Object.keys(diaryData[week]).forEach(date => {
+                if (diaryData[week][date]['emotion']) {
+                    newEmojiList.push({date:date, emoji:diaryData[week][date]['emotion']});
+                }
                 newDotList.push(date);
             });
         });
+        setEmojiList(newEmojiList);
         setDotList(newDotList); // 여기서 setDotList를 한 번만 호출하여 성능을 향상시킴
     },[diaryData])
     const handleMonthChange = (date) => {
@@ -70,6 +75,9 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
             } else {
                 markedDates[date] = {isWrite:true}
             }
+        })
+        emojiList.forEach(value=>{
+            markedDates[value.date] = {...markedDates[value.date], emoji:value.emoji};
         })
         return markedDates;
     }
@@ -114,7 +122,7 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
                         <View style={[marking?.todayStyle, {width:20, height:14, alignItems:'center', justifyContent:'center'}]}>
                             <Text style={{fontSize:10}}>{date.day}</Text>
                         </View>
-                        <Text style={{marginVertical:3}}>{'😊'}</Text>
+                        <Text style={{marginVertical:3}}>{marking?.emoji}</Text>
                         <View style={marking?.isWrite?{backgroundColor:'#486ED1', width:3, height:3, borderRadius:50}:undefined}></View>
                     </TouchableOpacity>
                     </View>

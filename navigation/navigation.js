@@ -17,6 +17,7 @@ import EmotionCamera from '../screens/EmotionCamera';
 import EmotionResult from '../screens/EmotionResult';
 import TestCalender from '../screens/(main)/TestCalender';
 import AISummaryBtn from '../screens/AISummaryBtn';
+import DiaryDeleteModal from '../modal/DiaryDeleteModal';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,24 +39,24 @@ export default function Navigation() {
         <Stack.Screen name="NicknameModal" component={NicknameModal} options={{ presentation: 'transparentModal' }}/>
         <Stack.Screen name="CommentDeleteModal" component={CommentDeleteModal} options={{ presentation: 'transparentModal' }}/>
         <Stack.Screen name="NicknameChangeModal" component={NicknameChangeModal} options={{ presentation: 'transparentModal' }}/>
+        <Stack.Screen name="DiaryDeleteModal" component={DiaryDeleteModal} options={{ presentation: 'transparentModal' }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-function MainTabNavigator({route}) {
-  const emotion = route.params.emotion;
+function MainTabNavigator() {
   return (
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: { height: 58, paddingTop: 5, paddingBottom: 5 },}}>
-      <Tab.Screen name="Calender" component={TestCalender} initialParams={{emotion:emotion}} options={{ 
+      <Tab.Screen name="Calender" component={TestCalender} options={{ 
         tabBarLabel: '홈', tabBarIcon: ({ focused }) => (<Octicons name="home" size={24} color={focused ? '#6666FF' : 'gray'}/>),
         tabBarActiveTintColor: '#6666FF',
         tabBarInactiveTintColor: 'gray',}}/>
-      <Tab.Screen name="MusicNav" component={MusicNavigator} initialParams={{emotion:emotion}} options={{
+      <Tab.Screen name="MusicNav" component={MusicNavigator} options={{
         tabBarLabel: '음악 추천',
         tabBarIcon: ({ focused }) => (<FontAwesome name="music" size={24} color={focused ? '#6666FF' : 'gray'}/>),
         tabBarActiveTintColor: '#6666FF',}}/>
-      <Tab.Screen name="ChatRoom" component={ChatRoom} initialParams={{emotion:emotion}} options={{
+      <Tab.Screen name="ChatRoom" component={ChatRoom} options={{
         // unmountOnBlur:true,
         tabBarLabel: '채팅방',
         tabBarIcon: ({ focused }) => (<FontAwesome name="comments-o" size={24} color={focused ? '#6666FF' : 'gray'}/>),
