@@ -15,8 +15,8 @@ import Logo from '../screens/Logo';
 import Temp from '../screens/Temp';
 import EmotionCamera from '../screens/EmotionCamera';
 import EmotionResult from '../screens/EmotionResult';
-import TestCalender from '../screens/(main)/TestCalender';
 import AISummaryBtn from '../screens/AISummaryBtn';
+import DiaryDeleteModal from '../modal/DiaryDeleteModal';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -38,6 +38,7 @@ export default function Navigation() {
         <Stack.Screen name="NicknameModal" component={NicknameModal} options={{ presentation: 'transparentModal' }}/>
         <Stack.Screen name="CommentDeleteModal" component={CommentDeleteModal} options={{ presentation: 'transparentModal' }}/>
         <Stack.Screen name="NicknameChangeModal" component={NicknameChangeModal} options={{ presentation: 'transparentModal' }}/>
+        <Stack.Screen name="DiaryDeleteModal" component={DiaryDeleteModal} options={{ presentation: 'transparentModal' }}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -47,7 +48,7 @@ function MainTabNavigator({route}) {
   const emotion = route.params.emotion;
   return (
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: { height: 58, paddingTop: 5, paddingBottom: 5 },}}>
-      <Tab.Screen name="Calender" component={TestCalender} initialParams={{emotion:emotion}} options={{ 
+      <Tab.Screen name="Calender" component={Calender} options={{ 
         tabBarLabel: '홈', tabBarIcon: ({ focused }) => (<Octicons name="home" size={24} color={focused ? '#6666FF' : 'gray'}/>),
         tabBarActiveTintColor: '#6666FF',
         tabBarInactiveTintColor: 'gray',}}/>
@@ -64,10 +65,11 @@ function MainTabNavigator({route}) {
   );
 }
 
-function MusicNavigator() {
+function MusicNavigator({route}) {
+  const emotion = route.params.emotion
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="MusicInit" component={MusicInit} />
+      <Stack.Screen name="MusicInit" component={MusicInit} initialParams={{emotion: emotion}}/>
       <Stack.Screen name="Music" component={Music} />
     </Stack.Navigator>
   );

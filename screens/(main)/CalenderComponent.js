@@ -4,8 +4,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Touchable } from 'react-nativ
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import useDiary from '../../hook/usediary';
+import { useNavigation } from '@react-navigation/native';
 
-export default function TestCalenderComponent({selectedDate, setSelectedDate,setDiaryData,setSelectedWeek,diaryData}) {
+export default function CalenderComponent({selectedDate, setSelectedDate,setDiaryData,setSelectedWeek,diaryData}) {
     LocaleConfig.locales['kr'] = {
         monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
         monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -28,22 +29,29 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
         const weekNumber = Math.floor((tmpDate.getDate() - firstSunday.getDate())/7) + 2; // 주차 계산 로직
         return weekNumber;
     }
+    // setSelectedWeek(getWeek(dateString));
     useEffect(()=>{
         getMonthDiary(dateYearMonth).then(res=>{
             return setDiaryData(res);
         });
-    },[dateYearMonth])
-    useEffect(()=>{
-        setSelectedWeek(getWeek(dateString));
-    },[])
+    },[dateYearMonth, diaryData[getWeek(dateString)]?.[dateString]?.['emotion']])
     const [dotList, setDotList] = useState([]);
+    const [emojiList, setEmojiList] = useState([]);
     useEffect(()=>{
         let newDotList = []
+        let newEmojiList = []
+
         Object.keys(diaryData)?.forEach(week => {
             Object.keys(diaryData[week]).forEach(date => {
-                newDotList.push(date);
+                if (diaryData[week][date]['emotion']) {
+                    newEmojiList.push({date:date, emoji:diaryData[week][date]['emotion']});
+                }
+                if (diaryData[week][date]['text']){
+                    newDotList.push(date);
+                }
             });
         });
+        setEmojiList(newEmojiList);
         setDotList(newDotList); // 여기서 setDotList를 한 번만 호출하여 성능을 향상시킴
     },[diaryData])
     const handleMonthChange = (date) => {
@@ -70,6 +78,9 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
             } else {
                 markedDates[date] = {isWrite:true}
             }
+        })
+        emojiList.forEach(value=>{
+            markedDates[value.date] = {...markedDates[value.date], emoji:value.emoji};
         })
         return markedDates;
     }
@@ -114,7 +125,7 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
                         <View style={[marking?.todayStyle, {width:20, height:14, alignItems:'center', justifyContent:'center'}]}>
                             <Text style={{fontSize:10}}>{date.day}</Text>
                         </View>
-                        <Text style={{marginVertical:3}}>{'😊'}</Text>
+                        <Text style={{marginVertical:3}}>{marking?.emoji}</Text>
                         <View style={marking?.isWrite?{backgroundColor:'#486ED1', width:3, height:3, borderRadius:50}:undefined}></View>
                     </TouchableOpacity>
                     </View>
@@ -127,9 +138,13 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
 }
 
 const CalenderButtons = () => {
+    const navigation = useNavigation();
+    const handleCameraButton = () => {
+        navigation.replace('EmotionCamera');
+    }
     return (
         <>
-            <TouchableOpacity style={{ backgroundColor: 'white', padding: 5, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
+            <TouchableOpacity onPress={handleCameraButton} style={{ backgroundColor: 'white', padding: 5, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
                 <Entypo name="camera" size={20} color="#888888" />
                 <Text style={{ marginLeft: 3 }}>기분어때</Text>
             </TouchableOpacity>

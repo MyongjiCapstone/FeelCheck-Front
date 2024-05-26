@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Modal, Text, TextInput, TouchableOpacity, StyleSheet, View } from 'react-native';
-import RealCalendarPart from './(main)/RealCalendarPart';
+import RealCalendarPart from './(main)/LegacyRealCalendarPart';
 import { useState } from 'react';
 import {
   widthPercentageToDP as wp,

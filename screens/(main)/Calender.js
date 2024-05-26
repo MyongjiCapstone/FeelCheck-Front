@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Modal,
   Text,
@@ -8,24 +8,37 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import RealCalendarPart from './RealCalendarPart';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import CalenderComponent from './CalenderComponent';
+import useDiary from '../../hook/usediary';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Calender({route}) {
+export default function Calender() {
   // Emotion has Successful Recognized
-  // const emotion = route.params.emotion;
-
-  const [written, setWritten] = useState(false);
+  const navigation = useNavigation();
+  const {writeDiary} = useDiary();
   const [modalVisible, setModalVisible] = useState(false);
   const [text, setText] = useState('');
+
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
+  const day = date.getDate().toString().padStart(2, '0');
+  const dateString = `${year}-${month}-${day}`
+  const [selectedDate, setSelectedDate] = useState(dateString);
+  const [selectedWeek, setSelectedWeek] = useState();
+  const [diaryData, setDiaryData] = useState({1:{}, 2:{}, 3:{}, 4:{}});
   const onChangeText = (inputText) => {
     setText(inputText);
   };
-
-  console.log(modalVisible);
+  const handleDiaryWrite = () => {
+    writeDiary(selectedDate, text).then(res=>setDiaryData(res));
+    setModalVisible(!modalVisible);
+    setText("");
+  }
   return (
     <LinearGradient
       colors={['#9CB7FF', '#DAD1FF']}
@@ -34,11 +47,19 @@ export default function Calender({route}) {
     >
       <View style={styles.top}>
         <View style={styles.topCalender}>
-          <RealCalendarPart />
+          <CalenderComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDiaryData={setDiaryData} setSelectedWeek={setSelectedWeek} diaryData={diaryData}/>
         </View>
       </View>
       <View style={styles.bottom}>
-        {!written ? (
+        {diaryData[selectedWeek]?.[selectedDate]?.['text'] ? (
+          <TouchableOpacity style={styles.afterBottomBox} onPress={() => setModalVisible(true)} onLongPress={()=>navigation.navigate('DiaryDeleteModal', {data : selectedDate, func: setDiaryData})}>
+            <View style={styles.writtenContentBox}>
+              <Text style={styles.writtenContent}>
+                {diaryData[selectedWeek][selectedDate]['text']}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ):(
           <View style={styles.bottomBox}>
             <Text style={styles.bottomBoxText}>아직 기록된 일기가 없어요</Text>
             <TouchableOpacity
@@ -48,20 +69,7 @@ export default function Calender({route}) {
               <Text style={styles.writeTextBtnText}>일기 쓰기</Text>
             </TouchableOpacity>
           </View>
-        ) : (
-          <TouchableOpacity style={styles.afterBottomBox}>
-            {/* 이게 클릭되면 언제 작성됐는지에 대한 정보와 수정 및 삭제할 수 있는 버튼 띄우기 */}
-            <View style={styles.writtenContentBox}>
-              <Text style={styles.writtenContent}>
-                이 자리에 사용자가 해당 날짜에 입력한 일기 내용을 보이게 할
-                예정. 이 자리에 사용자가 해당 날짜에 입력한 일기 내용을 보이게
-                할 예정. 이 자리에 사용자가 해당 날짜에 입력한 일기 내용을
-                보이게 할 예정. 이 자리에 사용자가 해당 날짜에 입력한 일기
-                내용을 보이게 할 예정.
-              </Text>
-            </View>
-          </TouchableOpacity>
-        )}
+        ) }
       </View>
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
@@ -88,7 +96,8 @@ export default function Calender({route}) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.modalButton, styles.modalButtonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={handleDiaryWrite}
+                // onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text style={{ ...styles.textStyle, color: 'white' }}>
                   작성 완료
@@ -107,47 +116,42 @@ const styles = StyleSheet.create({
     height: hp('100%'),
   },
   top: {
-    // backgroundColor: 'white',
-    height: hp('60%'),
+    // backgroundColor: 'blue',
   },
   topCalender: {
     backgroundColor: 'white',
-    height: hp('50%'),
-    marginVertical: hp('8.3%'),
+    paddingBottom: hp('1%'),
+    marginTop: hp('7%'),
+    marginBottom: hp('3%'),
     marginHorizontal: wp('5%'),
-    borderRadius: 10,
+    borderRadius: 4,
   },
   bottom: {
-    backgroundColor: 'white',
-    height: hp('40%'),
+    backgroundColor: 'white', flex:1, justifyContent:'center', marginBottom:20
   },
   bottomBox: {
-    height: hp('28%'),
-    marginHorizontal: wp('5%'),
-    marginVertical: hp('2.3%'),
     borderRadius: 10,
     flexDirection: 'column',
+    alignItems:'center'
   },
   bottomBoxText: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: '600',
     textAlign: 'center',
-    justifyContent: 'center',
-    marginTop: hp('7%'),
   },
   writeTextBtn: {
-    backgroundColor: 'lightgrey',
-    marginHorizontal: wp('24%'),
-    paddingHorizontal: hp('2%'),
-    paddingVertical: hp('1.2%'),
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: 'lightgray',
+    justifyContent:'center',
+    alignItems:'center',
+    paddingHorizontal: hp('4%'),
+    paddingVertical: hp('2%'),
     borderRadius: 10,
     marginTop: hp('4.1%'),
+    marginBottom: hp('3%')
   },
   writeTextBtnText: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 23,
     fontWeight: '500',
   },
   afterBottomBox: {

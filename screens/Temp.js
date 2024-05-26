@@ -4,7 +4,7 @@ export default function Temp({ navigation }) {
   return (
     <View style={{ marginTop: 100 }}>
       <Text>안녕하세요 로그인 페이지입니다.</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Phrase')}>
+      <TouchableOpacity onPress={() => navigation.navigate('Phrase', {emotion: 'Happy'})}>
         <Text style={styles.size}>여길 누르면 Phrase로 이동</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('MainNav', {emotion:'Happy'})}>
@@ -18,6 +18,9 @@ export default function Temp({ navigation }) {
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('AISummaryBtn')}>
         <Text style={styles.size}>AI 요약 버튼 눌렀을 때는?</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('Logo')}>
+        <Text style={[styles.size, {color:'blue', marginTop: 30, fontSize:40, fontWeight:600}]}>실제 APP 테스트</Text>
       </TouchableOpacity>
     </View>
   );
