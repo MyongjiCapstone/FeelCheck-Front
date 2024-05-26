@@ -4,7 +4,9 @@ export default function useEmotion() {
     const todayEmotion = async(emotion) => {
         const emoji = {
             Happy : '😄',
+            HappyNess : '😄',
             Sad : '😭',
+            Sadness : '😭',
             Angry : '😡',
             Surprised : '😮',
             Neutral : '😊'
@@ -29,18 +31,19 @@ export default function useEmotion() {
     }
     const writeEmotion = async(date, emotion) => {
         const emoji = {
-            HAPPY : '😄',
-            SAD : '😭',
-            ANGRY : '😡',
-            SURPRISED : '😮',
-            NEUTRAL : '😊'
+            Happy : '😄',
+            HappyNess : '😄',
+            Sad : '😭',
+            Sadness : '😭',
+            Angry : '😡',
+            Surprised : '😮',
+            Neutral : '😊'
         }
         const tmpDate = new Date(date);
         const firstDayOfMonth = new Date(tmpDate.getFullYear(), tmpDate.getMonth(), 1)
         const firstSunday = new Date(firstDayOfMonth);
         firstSunday.setDate(firstDayOfMonth.getDate() + (7 - firstDayOfMonth.getDay()));
         const weekNumber = Math.floor((tmpDate.getDate() - firstSunday.getDate())/7) + 2; // 주차 계산 로직
-
         const dateYearMonth = date.slice(0, -3);
         const monthDiary = JSON.parse(await AsyncStorage.getItem(dateYearMonth));
         let week = {...monthDiary[weekNumber]}; //해당 주차의 일기들 가져오기

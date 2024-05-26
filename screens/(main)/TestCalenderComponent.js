@@ -5,6 +5,7 @@ import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import useDiary from '../../hook/usediary';
 import useEmotion from '../../hook/useemotion';
+import { useNavigation } from '@react-navigation/native';
 
 export default function TestCalenderComponent({selectedDate, setSelectedDate,setDiaryData,setSelectedWeek,diaryData}) {
     LocaleConfig.locales['kr'] = {
@@ -34,18 +35,21 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
         getMonthDiary(dateYearMonth).then(res=>{
             return setDiaryData(res);
         });
-    },[dateYearMonth])
+    },[dateYearMonth, diaryData[getWeek(dateString)]?.[dateString]?.['emotion']])
     const [dotList, setDotList] = useState([]);
     const [emojiList, setEmojiList] = useState([]);
     useEffect(()=>{
         let newDotList = []
         let newEmojiList = []
+
         Object.keys(diaryData)?.forEach(week => {
             Object.keys(diaryData[week]).forEach(date => {
                 if (diaryData[week][date]['emotion']) {
                     newEmojiList.push({date:date, emoji:diaryData[week][date]['emotion']});
                 }
-                newDotList.push(date);
+                if (diaryData[week][date]['text']){
+                    newDotList.push(date);
+                }
             });
         });
         setEmojiList(newEmojiList);
@@ -135,9 +139,13 @@ export default function TestCalenderComponent({selectedDate, setSelectedDate,set
 }
 
 const CalenderButtons = () => {
+    const navigation = useNavigation();
+    const handleCameraButton = () => {
+        navigation.navigate('EmotionCamera');
+    }
     return (
         <>
-            <TouchableOpacity style={{ backgroundColor: 'white', padding: 5, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
+            <TouchableOpacity onPress={handleCameraButton} style={{ backgroundColor: 'white', padding: 5, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
                 <Entypo name="camera" size={20} color="#888888" />
                 <Text style={{ marginLeft: 3 }}>기분어때</Text>
             </TouchableOpacity>
