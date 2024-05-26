@@ -8,7 +8,7 @@ import {
 import useEmotion from '../hook/useemotion';
 
 function Phrase({navigation, route}) {
-  const emotion = route.params.emotion;
+  const emotion = route.params.emotion || 'Happy';
   const words = {
     Happy: 'happy',
     HappyNess: 'happy',

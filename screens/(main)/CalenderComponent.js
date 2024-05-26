@@ -4,10 +4,9 @@ import { View, Text, TouchableOpacity, StyleSheet, Touchable } from 'react-nativ
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import useDiary from '../../hook/usediary';
-import useEmotion from '../../hook/useemotion';
 import { useNavigation } from '@react-navigation/native';
 
-export default function TestCalenderComponent({selectedDate, setSelectedDate,setDiaryData,setSelectedWeek,diaryData}) {
+export default function CalenderComponent({selectedDate, setSelectedDate,setDiaryData,setSelectedWeek,diaryData}) {
     LocaleConfig.locales['kr'] = {
         monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
         monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
