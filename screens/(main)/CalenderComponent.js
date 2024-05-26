@@ -140,7 +140,7 @@ export default function CalenderComponent({selectedDate, setSelectedDate,setDiar
 const CalenderButtons = () => {
     const navigation = useNavigation();
     const handleCameraButton = () => {
-        navigation.navigate('EmotionCamera');
+        navigation.replace('EmotionCamera');
     }
     return (
         <>

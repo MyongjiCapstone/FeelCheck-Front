@@ -34,8 +34,8 @@ function Phrase({navigation, route}) {
   const randomNumber = Math.floor(Math.random() * 7);
   const myText = phraseText['emotions'][words[emotion]][randomNumber]
   useEffect(()=>{
-    console.log(myText)
-    console.log(emotion, "Phrase is Printing");
+    // console.log(myText)
+    // console.log(emotion, "Phrase is Printing");
   },[])
   const handleUpdateEmotion = () => {
     todayEmotion(emotion);
