@@ -6,27 +6,11 @@ import {
 } from 'react-native-responsive-screen';
 
 export default function RealCalendarPart() {
-  const months = [
-    '1월',
-    '2월',
-    '3월',
-    '4월',
-    '5월',
-    '6월',
-    '7월',
-    '8월',
-    '9월',
-    '10월',
-    '11월',
-    '12월',
-  ];
-
+  const months = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
   const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
-
   const nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
   const [activeDate, setActiveDate] = useState(new Date());
-
   const [emotions, setEmotions] = useState(['😊', '😭']);
   console.log(emotions);
 
@@ -90,9 +74,7 @@ export default function RealCalendarPart() {
 
   const rows = matrix.map((row, rowIndex) => {
     const rowItems = row.map((item, colIndex) => {
-      const dateKey = `${activeDate.getFullYear()}-${
-        activeDate.getMonth() + 1
-      }-${item}`;
+      const dateKey = `${activeDate.getFullYear()}-${activeDate.getMonth() + 1}-${item}`;
       const emotion = emotions[dateKey];
       // console.log(item);
       return (
