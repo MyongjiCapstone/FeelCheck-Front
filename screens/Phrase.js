@@ -9,21 +9,45 @@ import useEmotion from '../hook/useemotion';
 
 function Phrase({navigation, route}) {
   const emotion = route.params.emotion;
+  const words = {
+    Happy: 'happy',
+    HappyNess: 'happy',
+    Sad: 'sad' ,
+    Sadness: 'sad',
+    Angry: 'angry' ,
+    Rage: 'angry',
+    Surprise: 'surprise',
+    Neutral: 'neutral'
+  }
+  const backgroundColors = {
+    Happy: ['yellow', 'white'],
+    HappyNess: ['yellow', 'white'],
+    Sad: ['blue', 'white'],
+    Sadness: ['blue', 'white'],
+    Angry: ['red', 'white'],
+    Rage: ['red', 'white'],
+    Surprise: ['lightgreen', 'white'],
+    Neutral: ['gray', 'white'],
+  }
+  const phraseText = require('../assets/phrase.json');
   const {todayEmotion} = useEmotion();
+  const randomNumber = Math.floor(Math.random() * 7);
+  const myText = phraseText['emotions'][words[emotion]][randomNumber]
   useEffect(()=>{
+    console.log(myText)
     console.log(emotion, "Phrase is Printing");
   },[])
   const handleUpdateEmotion = () => {
     todayEmotion(emotion);
-    navigation.replace("MainNav")
+    navigation.replace("MainNav", {emotion:emotion})
   }
 
   const [modalVisible, setModalVisible] = useState(false);
   return (
-    <LinearGradient colors={['skyblue', 'white']} style={styles.container}>
+    <LinearGradient colors={backgroundColors[emotion]} style={styles.container}>
       <View style={styles.pg_top}>
-        <Text style={styles.text}>행복은 습관이다, 그것을 몸에 지니라.</Text>
-        <Text style={styles.author}>- 허버드</Text>
+        <Text style={styles.text}>{myText['quote']}</Text>
+        <Text style={styles.author}>{myText['author']}</Text>
       </View>
       <View style={styles.pg_bottom}>
         {/* 채윤 여기에 navigation 설치하고 감 */}
@@ -67,12 +91,12 @@ function Phrase({navigation, route}) {
           </View>
         </View>
       </Modal>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.modalButton, styles.modalButtonOpen]}
         onPress={() => setModalVisible(true)}
       >
         <Text style={styles.textStyle}>Show Modal</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </LinearGradient>
     // 만약 이미 기분이 등록되어있다면 확인을 눌렀을 때 모달 창 띄우기
     // 그러니까 마지막 TouchableOpacity 부분은 나중에 없앨 것.
@@ -81,8 +105,7 @@ function Phrase({navigation, route}) {
 }
 const styles = StyleSheet.create({
   container: {
-    width: wp('100%'),
-    height: hp('100%'),
+    flex:1,
   },
   pg_top: {
     flexDirection: 'row',
@@ -95,7 +118,7 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: hp('80%'),
-    fontSize: 50,
+    fontSize: 45,
     fontWeight: '500',
     color: 'black',
   },

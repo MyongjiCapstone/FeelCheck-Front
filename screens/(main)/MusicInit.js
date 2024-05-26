@@ -3,26 +3,26 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 export default function MusicInit({navigation, route}) {
-    const emotion = 'HAPPY';
+    const emotion = route.params.emotion || 'Happy';
     const emotionText = {
-        HAPPY : '행복한',
-        JOY : '즐거운',
-        ANGRY : '짜증나는',
-        RAGE : '분노한',
-        SAD : '슬픈',
-        GRIEVE : '서글픈',
-        SURPRISED : '놀란',
-        BLANK : '무표정인'        
+        Happy : '행복한',
+        HappyNess : '행복한',
+        Sad : '슬픈',
+        Sadness : '슬픈',
+        Angry : '짜증나는',
+        Rage : '짜증나는',
+        Surprise : '놀란',
+        Neutral : '평범한'  
     }
     const musicInit = {
-        HAPPY : ['행복한', '밝은'],
-        JOY : ['신나는', '통통튀는'],
-        ANGRY : ['박력있는', '잔잔한'],
-        RAGE : ['공격적인', '잔잔한'],
-        SAD : ['슬픈', '기운이솟는'],
-        GRIEVE : ['우울한', '기운이솟는'],
-        SURPRISED : ['진정되는', '밝은'],
-        BLANK : ['가벼운', '신나는']
+        Happy : ['행복한', '밝은'],
+        HappyNess : ['신나는', '통통튀는'],
+        Angry : ['박력있는', '잔잔한'],
+        Rage : ['공격적인', '잔잔한'],
+        Sad : ['슬픈', '기운이솟는'],
+        Sadness : ['우울한', '기운이솟는'],
+        Surprise : ['진정되는', '밝은'],
+        Neutral : ['가벼운', '신나는']
     }
     return (
         <LinearGradient colors={['#9CB7FF', '#DAD1FF']} end={{ x: 0.5, y: 0.6 }} style={{ height: '100%' }}>

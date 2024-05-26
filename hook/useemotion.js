@@ -8,7 +8,8 @@ export default function useEmotion() {
             Sad : '😭',
             Sadness : '😭',
             Angry : '😡',
-            Surprised : '😮',
+            Rage : '😡',
+            Surprise : '😮',
             Neutral : '😊'
         }
         const tmpDate = new Date();
@@ -36,7 +37,8 @@ export default function useEmotion() {
             Sad : '😭',
             Sadness : '😭',
             Angry : '😡',
-            Surprised : '😮',
+            Rage : '😡',
+            Surprise : '😮',
             Neutral : '😊'
         }
         const tmpDate = new Date(date);

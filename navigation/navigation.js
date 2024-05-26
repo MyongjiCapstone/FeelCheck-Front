@@ -45,18 +45,19 @@ export default function Navigation() {
   );
 }
 
-function MainTabNavigator() {
+function MainTabNavigator({route}) {
+  const emotion = route.params.emotion;
   return (
     <Tab.Navigator screenOptions={{headerShown: false, tabBarStyle: { height: 58, paddingTop: 5, paddingBottom: 5 },}}>
       <Tab.Screen name="Calender" component={TestCalender} options={{ 
         tabBarLabel: '홈', tabBarIcon: ({ focused }) => (<Octicons name="home" size={24} color={focused ? '#6666FF' : 'gray'}/>),
         tabBarActiveTintColor: '#6666FF',
         tabBarInactiveTintColor: 'gray',}}/>
-      <Tab.Screen name="MusicNav" component={MusicNavigator} options={{
+      <Tab.Screen name="MusicNav" component={MusicNavigator} initialParams={{emotion:emotion}} options={{
         tabBarLabel: '음악 추천',
         tabBarIcon: ({ focused }) => (<FontAwesome name="music" size={24} color={focused ? '#6666FF' : 'gray'}/>),
         tabBarActiveTintColor: '#6666FF',}}/>
-      <Tab.Screen name="ChatRoom" component={ChatRoom} options={{
+      <Tab.Screen name="ChatRoom" component={ChatRoom} initialParams={{emotion:emotion}} options={{
         // unmountOnBlur:true,
         tabBarLabel: '채팅방',
         tabBarIcon: ({ focused }) => (<FontAwesome name="comments-o" size={24} color={focused ? '#6666FF' : 'gray'}/>),
@@ -65,10 +66,11 @@ function MainTabNavigator() {
   );
 }
 
-function MusicNavigator() {
+function MusicNavigator({route}) {
+  const emotion = route.params.emotion
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="MusicInit" component={MusicInit} />
+      <Stack.Screen name="MusicInit" component={MusicInit} initialParams={{emotion: emotion}}/>
       <Stack.Screen name="Music" component={Music} />
     </Stack.Navigator>
   );

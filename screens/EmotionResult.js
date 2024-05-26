@@ -6,6 +6,16 @@ import NetworkError from "./NetworkError";
 import { LinearGradient } from "expo-linear-gradient";
 
 export default function EmotionResult({navigation, route}){
+    const words = {
+        Happy : '행복함',
+        HappyNess : '행복함',
+        Sad : '슬픔',
+        Sadness : '슬픔',
+        Angry : '화남',
+        Rage : '화남',
+        Surprise : '놀람',
+        Neutral : '평범'
+    }
     const [mode, setMode] = useState("LOADING");
     const [emotion, setEmotion] = useState();
     const {classifyFace} = useFaceDetection();
@@ -23,7 +33,6 @@ export default function EmotionResult({navigation, route}){
             });
         }
     },[mode])
-    // console.log(capturedImage);
     return(
         <>
         {mode==="NETWORK_ERROR" ? (
@@ -32,7 +41,7 @@ export default function EmotionResult({navigation, route}){
             <View style={{flex:1, justifyContent:'center', backgroundColor:'transparent'}}>
                 <LinearGradient colors={['#9CB7FF', '#EBE2FF']} end={{ x: 0.5, y: 0.7 }} style={{height:hp('28%'),
                 justifyContent:'center', alignItems:'center'}}>
-                    <Text style={{fontSize:29, textAlign:'center', paddingHorizontal:'15%'}}>{emotion ? emotion : "분석 중..."}</Text>
+                    <Text style={{fontSize:29, textAlign:'center', paddingHorizontal:'15%'}}>{emotion ? `오늘 당신의 기분은 ${words[emotion]}` : "분석 중..."}</Text>
                 </LinearGradient>
                 <Image source={{uri: capturedImage}} resizeMode="cover" style={{flex:1, transform:[{scaleX:-1}]}} />
                 <LinearGradient colors={['#EBE2FF','#9CB7FF']} end={{ x: 0.5, y: 0.8 }} style={{height:hp('28%'),
