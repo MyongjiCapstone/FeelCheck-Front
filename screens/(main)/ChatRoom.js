@@ -16,15 +16,25 @@ export default function ChatRoom({navigation, route}) {
     const [contentHeight, setContentHeight] = useState(500);
     const [contentOpacity, setContentOpacity] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const emotion = "HAPPY"; //추후 route.params.emotion 으로 설정해야 함
+    const emotionInit = route.params.emotion || "Happy"; //추후 route.params.emotion 으로 설정해야 함
+    const emotion = {
+        Happy : 'HAPPY',
+        HappyNess : 'HAPPY',
+        Sad : 'SAD',
+        Sadness : 'SAD',
+        Angry : 'ANGRY',
+        Rage : 'ANGRY',
+        Surprise : 'SURPRISED',
+        Neutral : 'NEUTRAL'
+    }
     useEffect(()=>{
         if(!commentList){
-            getComments(emotion, page).then(res=>{
+            getComments(emotion[emotionInit], page).then(res=>{
                 setCommentList(res);
             });
         }
         const commentInterval = setInterval(()=>{
-            getComments(emotion, page).then(res=>{
+            getComments(emotion[emotionInit], page).then(res=>{
                 setCommentList(res);
             })
         }, 500)
@@ -44,12 +54,12 @@ export default function ChatRoom({navigation, route}) {
 
     const commentPush = (comment) => {
         const commentPostData = {
-            emotion: emotion,
+            emotion: emotion[emotionInit],
             nickname: userNickname,
             comment: comment
         }
         postComment(commentPostData).then(()=>{
-            getComments(emotion, page).then(res=>{
+            getComments(emotion[emotionInit], page).then(res=>{
                 setCommentList(res);
             });
             scrollRef.current.scrollToEnd({animation:true});
@@ -59,7 +69,7 @@ export default function ChatRoom({navigation, route}) {
         // 사용자 본인의 Comment
         if (nickname === userNickname){
             const paramsData = {
-                emotion: emotion,
+                emotion: emotion[emotionInit],
                 page: page,
                 commentDeleteData: {
                     nickname: nickname,
@@ -76,7 +86,7 @@ export default function ChatRoom({navigation, route}) {
     }
     const handleNamePress = () => {
         const paramsData = {
-            emotion: emotion,
+            emotion: emotion[emotionInit],
             page: page,
             nickname: userNickname,
             callback: setCommentList
@@ -124,12 +134,12 @@ export default function ChatRoom({navigation, route}) {
                     )
                 })}
             </ScrollView>
-            <CommentInput commentPush={commentPush}/>
+            <CommentInput commentPush={commentPush} emotion={emotion[emotionInit]}/>
         </LinearGradient>
     )
 }
 
-function CommentInput({commentPush}){
+function CommentInput({commentPush, emotion}){
     const [comment, setComment] = useState("");
     const handleSendButton = () => {
         commentPush(comment);
@@ -139,7 +149,7 @@ function CommentInput({commentPush}){
         <View style={{borderColor:'gray', borderRadius: 8, paddingHorizontal:16, paddingVertical:6, backgroundColor:'#ACB7DE',
             position: 'relative', bottom:-5, flexDirection:'row', alignItems: 'center'}}>
             <TextInput maxLength={100} style={{ padding: 16, fontSize: 16, height: hp('7%'), flex: 1, backgroundColor: 'white', borderRadius: 20, marginRight: 16, marginBottom:5, elevation:3 }}
-            value={comment} onChangeText={setComment} placeholder="채팅을 남겨보세요."/>
+            value={comment} onChangeText={setComment} placeholder={`${emotion} : 채팅을 남겨보세요.`}/>
             <TouchableOpacity activeOpacity={0.7} onPress={handleSendButton}
             style={{ backgroundColor: 'white', marginTop: hp('1%'), marginBottom:hp('1%')+5, alignItems: 'center', justifyContent: 'center', width:hp('6.5%'), height: hp('6.5%'), borderRadius: 50, paddingHorizontal:'2%', elevation:3}}>
                 <FontAwesome name="send" size={24} color="#A0BAC5" style={{marginRight:3}}/>

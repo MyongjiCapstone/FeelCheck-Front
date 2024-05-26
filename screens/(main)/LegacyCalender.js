@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   Modal,
   Text,
@@ -8,38 +8,24 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
+import RealCalendarPart from './LegacyRealCalendarPart';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import TestCalenderComponent from './TestCalenderComponent';
-import useDiary from '../../hook/usediary';
 
 export default function Calender({route}) {
   // Emotion has Successful Recognized
   // const emotion = route.params.emotion;
-  const {writeDiary} = useDiary();
+
   const [written, setWritten] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [text, setText] = useState('');
-
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
-  const day = date.getDate().toString().padStart(2, '0');
-  const dateString = `${year}-${month}-${day}`
-  const dateYearMonth = `${year}-${month}`
-  const [selectedDate, setSelectedDate] = useState(dateString);
-  const [selectedWeek, setSelectedWeek] = useState();
-  const [diaryData, setDiaryData] = useState({1:{}, 2:{}, 3:{}, 4:{}});
   const onChangeText = (inputText) => {
     setText(inputText);
   };
-  const handleDiaryWrite = () => {
-    writeDiary(selectedDate, text).then(res=>setDiaryData(res));
-    setModalVisible(!modalVisible);
-    setText("");
-  }
+
+  console.log(modalVisible);
   return (
     <LinearGradient
       colors={['#9CB7FF', '#DAD1FF']}
@@ -48,20 +34,11 @@ export default function Calender({route}) {
     >
       <View style={styles.top}>
         <View style={styles.topCalender}>
-          <TestCalenderComponent selectedDate={selectedDate} setSelectedDate={setSelectedDate} setDiaryData={setDiaryData} setSelectedWeek={setSelectedWeek} diaryData={diaryData}/>
+          <RealCalendarPart />
         </View>
       </View>
       <View style={styles.bottom}>
-        {diaryData[selectedWeek]?.[selectedDate] ? (
-          <TouchableOpacity style={styles.afterBottomBox}>
-            {/* 이게 클릭되면 언제 작성됐는지에 대한 정보와 수정 및 삭제할 수 있는 버튼 띄우기 */}
-            <View style={styles.writtenContentBox}>
-              <Text style={styles.writtenContent}>
-                {diaryData[selectedWeek][selectedDate]}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        ):(
+        {!written ? (
           <View style={styles.bottomBox}>
             <Text style={styles.bottomBoxText}>아직 기록된 일기가 없어요</Text>
             <TouchableOpacity
@@ -71,7 +48,20 @@ export default function Calender({route}) {
               <Text style={styles.writeTextBtnText}>일기 쓰기</Text>
             </TouchableOpacity>
           </View>
-        ) }
+        ) : (
+          <TouchableOpacity style={styles.afterBottomBox}>
+            {/* 이게 클릭되면 언제 작성됐는지에 대한 정보와 수정 및 삭제할 수 있는 버튼 띄우기 */}
+            <View style={styles.writtenContentBox}>
+              <Text style={styles.writtenContent}>
+                이 자리에 사용자가 해당 날짜에 입력한 일기 내용을 보이게 할
+                예정. 이 자리에 사용자가 해당 날짜에 입력한 일기 내용을 보이게
+                할 예정. 이 자리에 사용자가 해당 날짜에 입력한 일기 내용을
+                보이게 할 예정. 이 자리에 사용자가 해당 날짜에 입력한 일기
+                내용을 보이게 할 예정.
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
       </View>
       <Modal animationType="slide" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
@@ -98,8 +88,7 @@ export default function Calender({route}) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.modalButton, styles.modalButtonClose]}
-                onPress={handleDiaryWrite}
-                // onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text style={{ ...styles.textStyle, color: 'white' }}>
                   작성 완료
@@ -118,42 +107,47 @@ const styles = StyleSheet.create({
     height: hp('100%'),
   },
   top: {
-    // backgroundColor: 'blue',
+    // backgroundColor: 'white',
+    height: hp('60%'),
   },
   topCalender: {
     backgroundColor: 'white',
-    paddingBottom: hp('1%'),
-    marginTop: hp('7%'),
-    marginBottom: hp('3%'),
+    height: hp('50%'),
+    marginVertical: hp('8.3%'),
     marginHorizontal: wp('5%'),
-    borderRadius: 4,
+    borderRadius: 10,
   },
   bottom: {
-    backgroundColor: 'white', flex:1, justifyContent:'center', marginBottom:20
+    backgroundColor: 'white',
+    height: hp('40%'),
   },
   bottomBox: {
+    height: hp('28%'),
+    marginHorizontal: wp('5%'),
+    marginVertical: hp('2.3%'),
     borderRadius: 10,
     flexDirection: 'column',
-    alignItems:'center'
   },
   bottomBoxText: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: '600',
     textAlign: 'center',
+    justifyContent: 'center',
+    marginTop: hp('7%'),
   },
   writeTextBtn: {
-    backgroundColor: 'lightgray',
-    justifyContent:'center',
-    alignItems:'center',
-    paddingHorizontal: hp('4%'),
-    paddingVertical: hp('2%'),
+    backgroundColor: 'lightgrey',
+    marginHorizontal: wp('24%'),
+    paddingHorizontal: hp('2%'),
+    paddingVertical: hp('1.2%'),
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 10,
     marginTop: hp('4.1%'),
-    marginBottom: hp('3%')
   },
   writeTextBtnText: {
     color: 'white',
-    fontSize: 23,
+    fontSize: 30,
     fontWeight: '500',
   },
   afterBottomBox: {
