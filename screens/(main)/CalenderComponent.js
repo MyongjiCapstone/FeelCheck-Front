@@ -123,7 +123,7 @@ export default function CalenderComponent({selectedDate, setSelectedDate,setDiar
                     style={state==='disabled'? styles.disableDate : styles.enableDate}
                     onPress={()=>handleDayPress(date)} >
                         <View style={[marking?.todayStyle, {width:20, height:14, alignItems:'center', justifyContent:'center'}]}>
-                            <Text style={{fontSize:10}}>{date.day}</Text>
+                            <Text style={{fontSize:10, fontWeight:'600'}}>{date.day}</Text>
                         </View>
                         <Text style={{marginVertical:3}}>{marking?.emoji}</Text>
                         <View style={marking?.isWrite?{backgroundColor:'#486ED1', width:3, height:3, borderRadius:50}:undefined}></View>
@@ -157,6 +157,6 @@ const CalenderButtons = () => {
 }
 
 const styles = StyleSheet.create({
-    disableDate: {width: 30,  height: 30,  justifyContent: 'center',  alignItems: 'center', opacity:0.4},
+    disableDate: {width: 30,  height: 30,  justifyContent: 'center',  alignItems: 'center', opacity:0.3},
     enableDate: {width: 30,  height: 30,  justifyContent: 'center',  alignItems: 'center'}
 })

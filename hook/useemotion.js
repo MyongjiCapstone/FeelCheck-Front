@@ -47,9 +47,11 @@ export default function useEmotion() {
         const newDiary = {...monthDiary}; //해당 달의 일기들 가져오기
         // if (week[date]) {
         // } else {
-            let emotionValue = {emotion: emoji[emotion]};
-            week[date] = emotionValue; //해당 주차 일기에 반영
+            const newDateValue = {...week[date], emotion: emoji[emotion]}
+            // let emotionValue = {emotion: emoji[emotion]};
+            week[date] = newDateValue; //해당 주차 일기에 반영
             newDiary[weekNumber] = week; //해당 달 일기에 반영
+            console.log(newDiary);
             AsyncStorage.setItem(dateYearMonth, JSON.stringify(newDiary));
         // }
     }

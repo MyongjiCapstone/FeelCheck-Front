@@ -20,8 +20,9 @@ export default function useDiary(){
         const monthDiary = JSON.parse(await AsyncStorage.getItem(dateYearMonth));
         let week = {...monthDiary[weekNumber]}; //해당 주차의 일기들 가져오기
         const newDiary = {...monthDiary}; //해당 달의 일기들 가져오기
-        let diarytext = {text: text};
-        week[date] = diarytext; //해당 주차 일기에 반영
+        const newDateValue = {...week[date], text: text}
+        // let diarytext = {text: text};
+        week[date] = newDateValue; //해당 주차 일기에 반영
         newDiary[weekNumber] = week; //해당 달 일기에 반영
         AsyncStorage.setItem(dateYearMonth, JSON.stringify(newDiary));
         return JSON.parse(await AsyncStorage.getItem(dateYearMonth));
