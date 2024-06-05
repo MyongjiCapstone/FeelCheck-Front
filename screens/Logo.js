@@ -1,10 +1,9 @@
-import { StyleSheet, View, Text } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet, View, Text, Image, Animated } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import useEmotion from '../hook/useemotion';
 import { useNavigation } from '@react-navigation/native';
 
@@ -22,25 +21,53 @@ export default function Logo() {
           navigation.replace('EmotionCamera');
         }
       });
-    }, 1000); // 1.3초 대기
+    }, 1300); // 1.3초 대기
     return () => clearTimeout(timer);
   },[])
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={{ color: 'white', fontSize: 30 }}>😊😒😘</Text>
-        <Text style={styles.text}>기분 어때</Text>
+      <View style={{marginBottom:hp('3%'), width:wp('48%'), flexDirection:'row'}}>
+        <FadeInView delay={0}>
+          <Text style={{fontSize: 30 }}>😊</Text>
+        </FadeInView>
+        <FadeInView delay={400}>
+          <Text style={{fontSize: 30, marginHorizontal:wp('2%') }}>😒</Text>
+        </FadeInView>
+        <FadeInView delay={800}>
+          <Text style={{fontSize: 30 }}>😘</Text>
+        </FadeInView>
       </View>
+      <Image source={require('../assets/logo.png')} resizeMode="cover"/>
     </View>
   );
 }
+
+const FadeInView = ({ delay, children }) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 500, // fade-in duration
+        delay: delay, // delay before starting the fade-in
+        useNativeDriver: true,
+      }
+    ).start();
+  }, [fadeAnim, delay]);
+  return (
+    <Animated.View style={{opacity: fadeAnim }}>
+      {children}
+    </Animated.View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
-    width: wp('100%'),
-    height: hp('100%'),
+    flex:1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'black',
+    backgroundColor: 'white',
   },
   text: {
     fontSize: 60,

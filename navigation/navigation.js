@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator();
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Temp'>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Logo'>
         {/* Pages */}
         {/* <Stack.Screen name="FaceRecognition" component={FaceRecognition} /> */}
         <Stack.Screen name="Logo" component={Logo} /> 
