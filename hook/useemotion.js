@@ -10,6 +10,9 @@ export default function useEmotion() {
         const date = tmpDate.toISOString().slice(0, 10);
         const dateYearMonth = date.slice(0, -3);
         const monthDiary = JSON.parse(await AsyncStorage.getItem(dateYearMonth));
+        if (!monthDiary) {
+            return {hasEmotion:false};
+        }
         let week = {...monthDiary[weekNumber][date]}; //해당 주차의 일기들 가져오기
         const emoji = {
             '😄' : 'Happy',
