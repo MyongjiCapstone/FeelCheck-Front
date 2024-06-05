@@ -7,6 +7,9 @@ import {
 } from 'react-native-responsive-screen';
 import { AntDesign, Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useDiary from '../hook/usediary';
+import Loading from './Loading';
 
 export default function AISummaryBtn(){
   const weekDays = ['일', '월', '화', '수', '목', '금', '토'];
@@ -63,20 +66,59 @@ export default function AISummaryBtn(){
     }
     return weeks;
   };
+  const {aiDiarySummary, aiComment} = useDiary();
+  const [summaryText, setSummaryText] = useState("일기 요약 버튼을 눌러보세요😊");
+  const [aiCommentText, setAiCommentText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selectedWeek, setSelectedWeek] = useState();
+  const handleSummary = async(date, week) => {
+    setLoading(true);
+    setSelectedWeek(week);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더해줍니다.
+    const yearMonth = `${year}-${month}`;
+    const item = JSON.parse(await AsyncStorage.getItem(yearMonth));
+    if(!item) {
+      setSummaryText("일기가 존재하지 않아요!")
+      setAiCommentText("");
+      setLoading(false);
+      return
+    }
+    if(!item[week]) {
+      setSummaryText("일기가 존재하지 않아요!")
+      setAiCommentText("");
+      setLoading(false);
+      return
+    }
+    let diarys = [];
+    Object.keys(item[week]).map(date => {
+      if (item[week][date].text) diarys.push(item[week][date].text);
+    })
+    aiDiarySummary(diarys).then(res => {
+      if (!res) {
+        setSummaryText("일기가 존재하지 않아요!");
+        setLoading(false);
+      } else{
+        setSummaryText(res);
+        aiComment(res).then(res=>{
+          setAiCommentText(res);
+        })
+        setLoading(false);
+      }
+    })
+  }
   const renderWeeks = () => {
     const weeks = calculateWeeks();
     const weekTexts = [];
     for (let i = 1; i <= weeks; i++) {
       weekTexts.push(
-      <View style={{padding:'10', flex:1}}>
-        <View style={{flexDirection:'row', justifyContent:'space-between', marginHorizontal:'auto', marginVertical:'auto', padding:5, width:wp('80%'), borderRadius:5, backgroundColor:'#9CB7FF'}}>
+        <View key={i}  style={{flexDirection:'row', justifyContent:'space-between', padding:5, width:wp('80%'), borderRadius:5, backgroundColor:'#FFFFFF', marginVertical:4}}>
           {/* <Text>😊</Text> 여기에 해당하는 감정 이모지 넣을 것 */}
-          <Text key={i} style={{fontSize:30, marginHorizontal:10}}>{i}주차</Text>
-          <TouchableOpacity style={{backgroundColor:'#DAD1FF', borderRadius:5, padding:10}}>
-            <Text style={{fontSize:17}}>일기 요약</Text>
+          <Text style={{fontSize:26, marginHorizontal:10}}>{i}주차</Text>
+          <TouchableOpacity onPress={()=>handleSummary(activeDate, i)} style={selectedWeek===i ? {backgroundColor:'#676767', borderRadius:5, padding:10}:{backgroundColor:'#B7B7B7', borderRadius:5, padding:10}}>
+            <Text style={{fontSize:15, color:'white'}}>일기 요약</Text>
           </TouchableOpacity>
         </View>
-      </View>
     );
     }
     return weekTexts;
@@ -87,13 +129,16 @@ export default function AISummaryBtn(){
     const handleCameraButton = () => {
         navigation.replace('EmotionCamera');
     }
+    const handleBackButton = () => {
+      navigation.goBack();
+    }
     return (
         <>
             <TouchableOpacity onPress={handleCameraButton} style={{ backgroundColor: 'white', padding: 5, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
                 <Entypo name="camera" size={20} color="#888888" />
                 <Text style={{ marginLeft: 3 }}>기분어때</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ backgroundColor: 'white', padding: 6, marginLeft: 10, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
+            <TouchableOpacity onPress={handleBackButton} style={{ backgroundColor: 'white', padding: 6, marginLeft: 10, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
                 <MaterialCommunityIcons name="arrow-left" size={20} color="#888888" />
                 <Text style={{ marginLeft: 3 }}>돌아가기</Text>
             </TouchableOpacity>
@@ -103,33 +148,40 @@ export default function AISummaryBtn(){
 
   return(
     <LinearGradient colors={['#9CB7FF', '#DAD1FF']} end={{ x: 0.5, y: 0.6 }} style={styles.container}>
-      <View style={styles.top}>
-        <View style={styles.topCalender}>
-          <View style={styles.calendarHeader}>
-            <TouchableOpacity onPress={() => changeMonth(-1)}>
-            <AntDesign name="left" size={20} color="black" />
-            </TouchableOpacity>
-            <Text style={styles.calendarMonth}>
-              {months[activeDate.getMonth()]}
-            </Text>
-            <TouchableOpacity onPress={() => changeMonth(1)}>
-              <AntDesign name="right" size={20} color="black" />
-            </TouchableOpacity>
-            <View style={styles.calendarButtonsContainer}>
-              <CalenderButtons/>
-            </View>
+      <View style={styles.topCalender}>
+        <View style={styles.calendarHeader}>
+          <TouchableOpacity onPress={() => changeMonth(-1)}>
+          <AntDesign name="left" size={20} color="black" />
+          </TouchableOpacity>
+          <Text style={styles.calendarMonth}>
+            {months[activeDate.getMonth()]}
+          </Text>
+          <TouchableOpacity onPress={() => changeMonth(1)}>
+            <AntDesign name="right" size={20} color="black" />
+          </TouchableOpacity>
+          <View style={styles.calendarButtonsContainer}>
+            <CalenderButtons/>
           </View>
-          <View style={{flex:1}}>
-            {renderWeeks()}
-          </View>
+        </View>
+        <View style={{backgroundColor:'#F4F4F4', paddingVertical: 5, justifyContent:'center', alignItems:'center'}}>
+          {renderWeeks()}
         </View>
       </View>
       <View style={styles.bottom}>
         <View style={styles.afterBottomBox}>
           <View style={styles.writtenContentBox}>
-            <Text style={styles.writtenContent}>
-              일기 요약 버튼을 눌러보세요😊
-            </Text>
+            {loading ? (
+              <Loading/>
+            ) : (
+              <>
+                <Text style={styles.writtenContent}>
+                  {summaryText}
+                </Text>
+                <Text style={{ color: '#6891F8', fontSize: 16 }}>
+                  {aiCommentText}
+                </Text>
+              </>
+            )}
           </View>
         </View>
       </View>
@@ -142,13 +194,10 @@ const styles = StyleSheet.create({
     width: wp('100%'),
     height: hp('100%'),
   },
-  top: {
-    height: hp('60%'),
-  },
   topCalender: {
     backgroundColor: 'white',
-    height: hp('50%'),
-    marginVertical: hp('8.3%'),
+    marginTop: hp('7%'),
+    marginBottom: hp('3%'),
     marginHorizontal: wp('5%'),
     borderRadius: 10,
   },
@@ -158,7 +207,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 10,
     justifyContent: 'space-between',
-    height:hp('5.2%')
+    height:hp('7%')
   },
   calendarMonth: {
     // fontWeight: '600',
@@ -171,7 +220,6 @@ const styles = StyleSheet.create({
   },
   bottom: {
     backgroundColor: 'white',
-    height: hp('40%'),
   },
   afterBottomBox: {
     height: hp('28%'),
@@ -182,13 +230,14 @@ const styles = StyleSheet.create({
     borderColor: 'lightgrey',
   },
   writtenContentBox: {
+    flex:1,
     marginVertical: hp('2.3%'),
     marginHorizontal: wp('5%'),
+    justifyContent:'center', alignItems:'center'
   },
   writtenContent: {
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: '400',
-    textAlign: 'center',
   },
   topPartButtonsContainer: {
     flexDirection: 'row',

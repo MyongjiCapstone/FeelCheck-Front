@@ -142,13 +142,16 @@ const CalenderButtons = () => {
     const handleCameraButton = () => {
         navigation.replace('EmotionCamera');
     }
+    const handleAIButton = () => {
+        navigation.navigate('AISummaryBtn');
+    }
     return (
         <>
             <TouchableOpacity onPress={handleCameraButton} style={{ backgroundColor: 'white', padding: 5, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
                 <Entypo name="camera" size={20} color="#888888" />
                 <Text style={{ marginLeft: 3 }}>기분어때</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={{ backgroundColor: 'white', padding: 6, marginLeft: 10, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
+            <TouchableOpacity onPress={handleAIButton} style={{ backgroundColor: 'white', padding: 6, marginLeft: 10, borderRadius: 10, elevation: 3, flexDirection: 'row' }}>
                 <MaterialCommunityIcons name="robot" size={20} color="#888888" />
                 <Text style={{ marginLeft: 3 }}>일기요약</Text>
             </TouchableOpacity>

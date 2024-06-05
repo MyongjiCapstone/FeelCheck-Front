@@ -1,4 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { Alert } from "react-native";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export default function useDiary(){
     const getMonthDiary = async(dateYearMonth) => {
@@ -43,7 +46,39 @@ export default function useDiary(){
         console.log('성공적으로', date, '일기가 삭제되었습니다.');
         return JSON.parse(await AsyncStorage.getItem(dateYearMonth));
     }
-    return {getMonthDiary, writeDiary, deleteDiary}
+
+    const aiDiarySummary = async(diaryArray) => {
+        const result = axios.post(`${API_URL}/openapi/summary`,diaryArray
+        ,{headers: {'Content-Type': 'application/json'}, timeout:5000})
+        .then((res) => {
+            if (res.data.status === 200){
+                console.log('Server : Success Summary');
+                return res.data.data;
+            } else {
+                Alert.alert('안내', res.data.message);
+                console.log('Server : Failed Summary, Reason :', res.data.message);
+                return res.data.data;
+            }
+        });
+        return result;
+    }
+    const aiComment = async(summaryText) => {
+        const result = axios.post(`${API_URL}/openapi/comment`,summaryText
+        ,{headers: {'Content-Type': 'application/json'}, timeout:5000})
+        .then((res) => {
+            if (res.data.status === 200){
+                console.log('Server : Success Ai Comment');
+                return res.data.data;
+            } else {
+                Alert.alert('안내', res.data.message);
+                console.log('Server : Failed Ai Comment, Reason :', res.data.message);
+                return res.data.data;
+            }
+        });
+        return result;
+    }
+
+    return {getMonthDiary, writeDiary, deleteDiary, aiDiarySummary, aiComment}
 }
 
 // '2024-05' : {

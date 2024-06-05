@@ -30,7 +30,7 @@ function Phrase({navigation, route}) {
     Neutral: ['gray', 'white'],
   }
   const phraseText = require('../assets/phrase.json');
-  const {todayEmotion} = useEmotion();
+  const {todayEmotion, checkEmotion} = useEmotion();
   const randomNumber = Math.floor(Math.random() * 7);
   const myText = phraseText['emotions'][words[emotion]][randomNumber]
   useEffect(()=>{
@@ -40,6 +40,17 @@ function Phrase({navigation, route}) {
   const handleUpdateEmotion = () => {
     todayEmotion(emotion);
     navigation.replace("MainNav", {emotion:emotion})
+  }
+  const handleAceeptButton = () => {
+    checkEmotion().then(res=>{
+      if (res.hasEmotion) {
+        setModalVisible(true);
+      }
+      else {
+        todayEmotion(emotion);
+        navigation.replace("MainNav", {emotion:emotion})
+      }
+    })
   }
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,7 +62,7 @@ function Phrase({navigation, route}) {
       </View>
       <View style={styles.pg_bottom}>
         {/* 채윤 여기에 navigation 설치하고 감 */}
-        <TouchableOpacity onPress={()=>setModalVisible(true)}
+        <TouchableOpacity onPress={handleAceeptButton}
         style={styles.btn}>
           <Text style={styles.btnText}>확인</Text>
         </TouchableOpacity>

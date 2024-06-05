@@ -46,17 +46,19 @@ export default function useEmotion() {
         const date = tmpDate.toISOString().slice(0, 10);
         const dateYearMonth = date.slice(0, -3);
         const monthDiary = JSON.parse(await AsyncStorage.getItem(dateYearMonth));
-        let week = {...monthDiary[weekNumber]}; //해당 주차의 일기들 가져오기
-        const newDiary = {...monthDiary}; //해당 달의 일기들 가져오기
-        // if (week[date]) {
-        // } else {
+        if (!monthDiary) {
+            let month = {
+                [weekNumber] : { [date] : {emotion : emoji[emotion]} }
+            }
+            AsyncStorage.setItem(dateYearMonth, JSON.stringify(month));
+        } else {
+            let week = {...monthDiary[weekNumber]}; //해당 주차의 일기들 가져오기
+            const newDiary = {...monthDiary}; //해당 달의 일기들 가져오기
             const newDateValue = {...week[date], emotion: emoji[emotion]}
-            // let emotionValue = {emotion: emoji[emotion]};
             week[date] = newDateValue; //해당 주차 일기에 반영
             newDiary[weekNumber] = week; //해당 달 일기에 반영
-            console.log(newDiary);
             AsyncStorage.setItem(dateYearMonth, JSON.stringify(newDiary));
-        // }
+        }
     }
     const writeEmotion = async(date, emotion) => {
         const emoji = {
