@@ -34,7 +34,7 @@ export default function CalenderComponent({selectedDate, setSelectedDate,setDiar
         getMonthDiary(dateYearMonth).then(res=>{
             return setDiaryData(res);
         });
-    },[dateYearMonth, diaryData[getWeek(dateString)]?.[dateString]?.['emotion']])
+    },[dateYearMonth, diaryData])
     const [dotList, setDotList] = useState([]);
     const [emojiList, setEmojiList] = useState([]);
     useEffect(()=>{

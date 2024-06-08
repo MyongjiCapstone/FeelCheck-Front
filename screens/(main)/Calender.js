@@ -30,7 +30,7 @@ export default function Calender() {
   const dateString = `${year}-${month}-${day}`
   const [selectedDate, setSelectedDate] = useState(dateString);
   const [selectedWeek, setSelectedWeek] = useState();
-  const [diaryData, setDiaryData] = useState({1:{}, 2:{}, 3:{}, 4:{}});
+  const [diaryData, setDiaryData] = useState({});
   const onChangeText = (inputText) => {
     setText(inputText);
   };
@@ -39,6 +39,22 @@ export default function Calender() {
     setModalVisible(!modalVisible);
     setText("");
   }
+  const [dText, setDText] = useState();
+  const getWeek = (date) => {
+    const tmpDate = new Date(date);
+    const firstDayOfMonth = new Date(tmpDate.getFullYear(), tmpDate.getMonth(), 1)
+    const firstSunday = new Date(firstDayOfMonth);
+    firstSunday.setDate(firstDayOfMonth.getDate() + (7 - firstDayOfMonth.getDay()));
+    const weekNumber = Math.floor((tmpDate.getDate() - firstSunday.getDate())/7) + 2; // 주차 계산 로직
+    return weekNumber;
+}
+  useEffect(()=>{
+    if (Object.keys(diaryData).length>0){
+      const weekNum = getWeek(selectedDate);
+      // console.log(diaryData[weekNum][selectedDate]?.['text']);
+      setDText(diaryData[weekNum][selectedDate]?.['text'])
+    }
+  },[diaryData,selectedDate])
   return (
     <LinearGradient
       colors={['#9CB7FF', '#DAD1FF']}
@@ -51,11 +67,11 @@ export default function Calender() {
         </View>
       </View>
       <View style={styles.bottom}>
-        {diaryData[selectedWeek]?.[selectedDate]?.['text'] ? (
+        {dText ? (
           <TouchableOpacity style={styles.afterBottomBox} onPress={() => setModalVisible(true)} onLongPress={()=>navigation.navigate('DiaryDeleteModal', {data : selectedDate, func: setDiaryData})}>
             <View style={styles.writtenContentBox}>
               <Text style={styles.writtenContent}>
-                {diaryData[selectedWeek][selectedDate]['text']}
+                {dText}
               </Text>
             </View>
           </TouchableOpacity>
